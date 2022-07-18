@@ -69,33 +69,42 @@
   services.autorandr.enable = true;
 
   nixpkgs.overlays = [
+#  nixpkgs.overlays = [
+#    (self: super: {
+#      dwm = super.dwm.overrideAttrs (oldAttrs: rec {
+#        patches = [
+#          # Useless Decoration
+#          ./patches/dwm/dwm-uselessgap-20211119-58414bee958f2.diff
+#          ./patches/dwm/dwm-setborderpx-6.2.diff  # TODO set default borderpx
+#
+#          # QOL
+#          # ./patches/dwm/dwm-centerfirstwindow-6.2.diff
+#          ./patches/dwm/dwm-layoutmenu-6.2.diff  # FIXME doesnt work (xmenu dep?)
+#          ./patches/dwm/dwm-swallow-20201211-61bb8b2.diff
+#          ./patches/dwm/dwm-pertag-20200914-61bb8b2.diff
+#          ./patches/dwm/dwm-movestack-20211115-a786211.diff
+#
+#          # Layouts
+#          ./patches/dwm/dwm-centeredmaster-6.1.diff
+#          ./patches/dwm/dwm-gaplessgrid-20160731-56a31dc.diff
+#
+#          # Tools
+#          ./patches/dwm/dwm-scratchpad-fix.diff  # prepatch two hunks
+#          ./patches/dwm/dwm-scratchpad-fixed-20200727-bb2e7222baeec7776930354d0e9f210cc2aaad5f.diff
+##          ./patches/dwm/dwm-systray-6.3.diff  # FIXME fix rejects
+#          ./patches/dwm/custom.diff
+#        ];
+#      });
+#    })
+
     (self: super: {
       dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-        patches = [
-          # Useless Decoration
-          ./patches/dwm/dwm-uselessgap-20211119-58414bee958f2.diff
-          ./patches/dwm/dwm-setborderpx-6.2.diff  # TODO set default borderpx
-
-          # QOL
-          # ./patches/dwm/dwm-centerfirstwindow-6.2.diff
-          ./patches/dwm/dwm-layoutmenu-6.2.diff  # FIXME doesnt work (xmenu dep?)
-          ./patches/dwm/dwm-swallow-20201211-61bb8b2.diff
-          ./patches/dwm/dwm-pertag-20200914-61bb8b2.diff
-          ./patches/dwm/dwm-movestack-20211115-a786211.diff
-
-          # Layouts
-          ./patches/dwm/dwm-centeredmaster-6.1.diff
-          ./patches/dwm/dwm-gaplessgrid-20160731-56a31dc.diff
-
-          # Tools
-          ./patches/dwm/dwm-scratchpad-fix.diff  # prepatch two hunks
-          ./patches/dwm/dwm-scratchpad-fixed-20200727-bb2e7222baeec7776930354d0e9f210cc2aaad5f.diff
-#          ./patches/dwm/dwm-systray-6.3.diff  # FIXME fix rejects
-          ./patches/dwm/custom.diff
-        ];
+        # src = fetchGit {
+        #    url = "git@github.com:Lerrrtaste/mrfusion-dwm.git";
+        # };
+        src = /home/lerrrtaste/sources/dwm-6.3-mrfusion;
       });
     })
-
     (self: super: {
       st = super.st.overrideAttrs (oldAttrs: rec {
         patches = [
@@ -126,13 +135,13 @@
     enable = true;
     fade = true;
     shadow = true;
-    settings = {}
-      blur = {
-        method = "glsl";
-        size = 10;
-        deviation = 10;
-      };
-    };
+     settings = {
+       blur = {
+         method = "gaussian";
+         size = 10;
+         deviation = 10;
+       };
+     };
   };
 
   # Keyboard
@@ -177,7 +186,7 @@
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" ];
     initialPassword = "changeme";
   };
  # home-manager.users.lerrrtaste = { pkgs, ... }: {
@@ -218,6 +227,8 @@
     # Deps
     xmenu  # for dwm layout menu patch
   ];
+
+  virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
