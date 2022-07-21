@@ -15,6 +15,13 @@
       ./hardware-configuration.nix
     ];
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "canon-cups-ufr2"
+    "steam"
+    "steam-original"
+    "steam-runtime"
+  ];
+
   # Power Management
   powerManagement.cpuFreqGovernor = "performance";
 
@@ -157,7 +164,16 @@
 
   
   # CUPS
-  services.printing.enable = true;
+#   services.printing.enable = true;
+#
+#   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+#   hardware.sane.enable = true;
+#   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+#   services.avahi.enable = true;
+#   services.avahi.nssmdns = true;
+#   nixpkgs.config.packageOverrides = pkgs: {
+#     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+#   };
 
   # Sound
   sound.enable = true;
@@ -186,7 +202,7 @@
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" ];
     initialPassword = "changeme";
   };
  # home-manager.users.lerrrtaste = { pkgs, ... }: {
@@ -197,6 +213,9 @@
   users.users.root = {
     hashedPassword = "!";  # Disable password-based login for root.
   };
+
+  # Gaming
+  programs.steam.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -224,11 +243,12 @@
     # QOL
     xcape
 
+
     # Deps
     xmenu  # for dwm layout menu patch
   ];
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
