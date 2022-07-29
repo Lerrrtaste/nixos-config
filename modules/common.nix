@@ -6,12 +6,17 @@
 # Common configuration for all systems
 
 { config, lib, pkgs, options, ...}:
+let
+  dwm_src = if builtins.pathExists("/home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm") then
+    /home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm
+  else
+    builtins.fetchGit "https://github.com/lerrrtaste/custom-dwm.git";  # to force download --option tarball-ttl 0 (default 1 hr)
+
+in
 {
   imports = [
 # TODO install home-manager as module (atm add channel and nix-shell '<home-manager>' -A install=
 #      (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
-      ./network.nix
-      ./hardware-configuration.nix
     ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -32,6 +37,15 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
+  # Disk Health
+  services.smartd = {
+    enable = true;
+    notifications = {
+      wall.enable = true;
+      test = true;
+    };
+  };
+
   # X11
   services.xserver.enable = true;
   services.xserver.autorun = false;
@@ -41,10 +55,7 @@
   nixpkgs.overlays = [
     (self: super: {
       dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-        src = fetchGit {
-           url = "git@github.com:Lerrrtaste/mrfusion-dwm.git";
-        };
-
+        src = dwm_src;
       });
     })
     (self: super: { # TODO move to own repo

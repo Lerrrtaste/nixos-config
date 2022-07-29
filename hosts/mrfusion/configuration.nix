@@ -1,6 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, options, ... }:
 
 {
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/common.nix
+  ];
+
   # Power Management
   powerManagement.cpuFreqGovernor = "performance";
 
@@ -57,4 +62,13 @@
    hardware.pulseaudio.extraConfig = "
    load-module module-switch-on-connect
    ";
+
+ # Network
+  networking.hostName = "mrfusion";
+
+  networking.networkmanager = {
+    enable = true;
+    dhcp = "dhcpcd";
+    wifi.backend = "wpa_supplicant";
+  };
 }
