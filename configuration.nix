@@ -74,42 +74,12 @@
     }
   ];
   services.autorandr.enable = true;
+  programs.light.enable = true;  # background light (light -A/-U 20)
 
   nixpkgs.overlays = [
-#  nixpkgs.overlays = [
-#    (self: super: {
-#      dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-#        patches = [
-#          # Useless Decoration
-#          ./patches/dwm/dwm-uselessgap-20211119-58414bee958f2.diff
-#          ./patches/dwm/dwm-setborderpx-6.2.diff  # TODO set default borderpx
-#
-#          # QOL
-#          # ./patches/dwm/dwm-centerfirstwindow-6.2.diff
-#          ./patches/dwm/dwm-layoutmenu-6.2.diff  # FIXME doesnt work (xmenu dep?)
-#          ./patches/dwm/dwm-swallow-20201211-61bb8b2.diff
-#          ./patches/dwm/dwm-pertag-20200914-61bb8b2.diff
-#          ./patches/dwm/dwm-movestack-20211115-a786211.diff
-#
-#          # Layouts
-#          ./patches/dwm/dwm-centeredmaster-6.1.diff
-#          ./patches/dwm/dwm-gaplessgrid-20160731-56a31dc.diff
-#
-#          # Tools
-#          ./patches/dwm/dwm-scratchpad-fix.diff  # prepatch two hunks
-#          ./patches/dwm/dwm-scratchpad-fixed-20200727-bb2e7222baeec7776930354d0e9f210cc2aaad5f.diff
-##          ./patches/dwm/dwm-systray-6.3.diff  # FIXME fix rejects
-#          ./patches/dwm/custom.diff
-#        ];
-#      });
-#    })
-
     (self: super: {
       dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-        # src = fetchGit {
-        #    url = "git@github.com:Lerrrtaste/mrfusion-dwm.git";
-        # };
-        src = /home/lerrrtaste/sources/dwm-6.3-mrfusion;
+        src = /home/lerrrtaste/repos/github.com/lerrrtaste/dwm-6.3-mrfusion;
       });
     })
     (self: super: {
@@ -155,25 +125,17 @@
   services.xserver.layout = "de";
   services.xserver.xkbOptions = "ctrl:nocaps";  # map caps to escape.
 
-  # environment = {
-  #   # Short CapsLock (keycode 66) to Escape
-  #   shellInit = ''
-  #      xcape -e "#66=Escape"
-  #      '';
-  #    };
-
-  
   # CUPS
-#   services.printing.enable = true;
-#
-#   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
-#   hardware.sane.enable = true;
-#   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-#   services.avahi.enable = true;
-#   services.avahi.nssmdns = true;
-#   nixpkgs.config.packageOverrides = pkgs: {
-#     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-#   };
+   services.printing.enable = true;
+
+   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+   hardware.sane.enable = true;
+   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+   services.avahi.enable = true;
+   services.avahi.nssmdns = true;
+   nixpkgs.config.packageOverrides = pkgs: {
+     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+   };
 
   # Sound
   sound.enable = true;
@@ -189,10 +151,10 @@
       };
     };
   };
-  services.blueman.enable = true;
-  hardware.pulseaudio.extraConfig = "
-  load-module module-switch-on-connect
-";
+ services.blueman.enable = true;
+   hardware.pulseaudio.extraConfig = "
+   load-module module-switch-on-connect
+   ";
 
   # Touchpad
   services.xserver.libinput.enable = true;
@@ -205,10 +167,6 @@
     extraGroups = [ "wheel" "networkmanager" "scanner" "lp" ];
     initialPassword = "changeme";
   };
- # home-manager.users.lerrrtaste = { pkgs, ... }: {
- #   programs.bash.enable = true;
- #   programs.home-manager.enable = true;
- # };
 
   users.users.root = {
     hashedPassword = "!";  # Disable password-based login for root.
@@ -224,6 +182,8 @@
     dmenu
     onlykey-cli
     onlykey
+    # onlykey-agent
+
 
     # Tools
     htop
@@ -234,6 +194,8 @@
     nethogs
     wireguard-tools
     # ryzenadj  # FIXME
+    ncpamixer  # terminal pavucontrol
+
 
     # Dekstop
     pinentry-curses
@@ -243,15 +205,15 @@
     # QOL
     xcape
 
-
     # Deps
     xmenu  # for dwm layout menu patch
   ];
 
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
+
 
   # OpenSSH
   services.openssh = {
