@@ -13,8 +13,8 @@ let
 in
 {
   imports = [
-# TODO install home-manager as module (atm add channel and nix-shell '<home-manager>' -A install=
-#      (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
+# TODO install home-manager as module (atm add channel and
+# nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
     ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -137,7 +137,7 @@ in
     wireguard-tools
 #   ryzenadj  # FIXME
     ncpamixer  # terminal pavucontrol
-
+    vim
 
     # Dekstop
     pinentry-curses
@@ -156,7 +156,7 @@ in
   # OpenSSH
   services.openssh = {
     enable = true;
-   openFirewall = false;
+   openFirewall = true;
     passwordAuthentication = false;
     permitRootLogin = "no";
   };
