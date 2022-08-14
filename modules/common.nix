@@ -50,6 +50,7 @@ in
   services.xserver.windowManager.dwm.enable = true;
   services.xserver.displayManager.startx.enable = true;
 
+  # Suckless
   nixpkgs.overlays = [
     (self: super: {
       dwm = super.dwm.overrideAttrs (oldAttrs: rec {
@@ -81,6 +82,10 @@ in
        };
      };
   };
+
+  # Notifications
+  # TODO
+
 
   # Keyboard
   services.xserver.layout = "de";
@@ -147,7 +152,7 @@ in
     xcape
   ];
 
-# virtualisation.docker.enable = true;
+virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
@@ -156,7 +161,7 @@ in
   # OpenSSH
   services.openssh = {
     enable = true;
-   openFirewall = true;
+    openFirewall = true;
     passwordAuthentication = false;
     permitRootLogin = "no";
   };
@@ -170,8 +175,8 @@ in
 
   # Firewall
   networking.firewall.enable = true;  
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [  ];
+  networking.firewall.allowedUDPPorts = [ 8080 ];
   
 
   # Random things

@@ -16,6 +16,8 @@
     ../../modules/common.nix
   ];
 
+  # Temporary and Testing
+
   # Power Management
   powerManagement.cpuFreqGovernor = "performance";
 
