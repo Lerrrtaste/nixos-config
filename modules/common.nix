@@ -121,7 +121,7 @@ in
   };
 
   # Gaming
-  # programs.steam.enable = true;
+  programs.steam.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
