@@ -39,8 +39,8 @@ in
   services.smartd = {
     enable = true;
     notifications = {
-      wall.enable = true;
-      test = true;
+      wall.enable = true; # FIXME doesnt work
+      # test = true;
     };
   };
 
@@ -75,7 +75,7 @@ in
     fade = true;
     shadow = true;
      settings = {
-       blur = {
+       blur = { # FIXME doesnt work
          method = "gaussian";
          size = 10;
          deviation = 10;
@@ -84,7 +84,7 @@ in
   };
 
   # Notifications
-  # TODO
+  # TODO where do they come from?
 
 
   # Keyboard
@@ -93,7 +93,6 @@ in
 
   # CUPS
    services.printing.enable = true;
-
    services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
    hardware.sane.enable = true;
    hardware.sane.extraBackends = [ pkgs.sane-airscan ];
@@ -112,7 +111,7 @@ in
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" ];
+    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" ]; # note dont add to docker!
     initialPassword = "changeme";
   };
 
@@ -130,7 +129,7 @@ in
     dmenu
     onlykey-cli
     onlykey
-#   onlykey-agent
+#   onlykey-agent # TODO find out how to use
 
     # Tools
     htop
@@ -152,7 +151,7 @@ in
     xcape
   ];
 
-virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
