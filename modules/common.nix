@@ -151,6 +151,12 @@ in
     xcape
   ];
 
+  # For nix-direnv (prevents gc, but its optional)
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+  '';
+
   virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
@@ -175,7 +181,7 @@ in
   # Firewall
   networking.firewall.enable = true;  
   networking.firewall.allowedTCPPorts = [  ];
-  networking.firewall.allowedUDPPorts = [ 8080 ];
+  networking.firewall.allowedUDPPorts = [  ];
   
 
   # Random things
