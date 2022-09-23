@@ -157,7 +157,7 @@ in
     keep-derivations = true
   '';
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
