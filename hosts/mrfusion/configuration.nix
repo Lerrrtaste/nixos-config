@@ -47,8 +47,10 @@
   services.autorandr.enable = true;
 
   # Laptop Hardware
-  programs.light.enable = true;  # background light (light -A/-U 20)
   services.xserver.libinput.enable = true;  # touchpad
+  environment.systemPackages = [
+    pkgs.brightnessctl # brightnessctl s 50%
+  ];
 
   # Graphics
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -58,6 +60,26 @@
     amdvlk  # optional in addition to mesa radv drivers
   ];
   environment.variables.AMD_VULKAN_ICD = "RADV";  # use radv
+
+
+
+  location = {
+    # center of germany
+    latitude = 51.1657;
+    longitude = 10.4515;
+  };
+
+  services.redshift = {
+    enable = true;
+    # brightness = {
+    #   day = "1";
+    #   night = "1";
+    # };
+    temperature = {
+      day = 5500;
+      night = 3700;
+    };
+  };
 
   # Bluetooth
   hardware.bluetooth = {
