@@ -152,10 +152,10 @@ in
   ];
 
   # For nix-direnv (prevents gc, but its optional)
-  nix.extraOptions = ''
-    keep-outputs = true
-    keep-derivations = true
-  '';
+  # nix.extraOptions = ''
+  #   keep-outputs = true
+  #   keep-derivations = true
+  # '';
 
   # virtualisation.docker.enable = true;
 
