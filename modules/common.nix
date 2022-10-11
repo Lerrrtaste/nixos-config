@@ -17,6 +17,17 @@ in
 # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
     ];
 
+  # Nix
+  nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 32d";
+  };
+  nix.extraOptions = ''
+    min-free = ${builtins.toString (500 * 1024 * 1024)}
+    max-free = ${builtins.toString (2000 * 1024 * 1024)}
+  ''; # run gc when free space is less than 500MB and keep at least 2GB free
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "canon-cups-ufr2"
     "steam"
