@@ -69,7 +69,7 @@
     longitude = 10.4515;
   };
 
-  services.redshift = {
+  services.redshift = { # FIXME service doesnt start
     enable = true;
     # brightness = {
     #   day = "1";
@@ -92,10 +92,10 @@
     };
   };
 
- services.blueman.enable = true;
-   hardware.pulseaudio.extraConfig = "
-   load-module module-switch-on-connect
-   ";
+  services.blueman.enable = true;
+  hardware.pulseaudio.extraConfig = "
+    load-module module-switch-on-connect
+  ";
 
  # Network
   networking.hostName = "mrfusion";

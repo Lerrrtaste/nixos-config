@@ -49,9 +49,9 @@ in
   # Disk Health
   services.smartd = {
     enable = true;
-    notifications = {
-      wall.enable = true; # FIXME doesnt work
-      # test = true;
+    notifications.test = true;
+    notifications.x11 = {
+      enable = true;
     };
   };
 
@@ -60,6 +60,11 @@ in
   services.xserver.autorun = false;
   services.xserver.windowManager.dwm.enable = true;
   services.xserver.displayManager.startx.enable = true;
+
+  # Fonts
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
+  ];
 
   # Suckless
   nixpkgs.overlays = [
@@ -140,7 +145,8 @@ in
     dmenu
     onlykey-cli
     onlykey
-#   onlykey-agent # TODO find out how to use
+    onlykey-agent # TODO find out how to use
+    gpa
 
     # Tools
     htop
