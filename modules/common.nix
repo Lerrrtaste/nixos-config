@@ -127,7 +127,7 @@ in
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" ]; # note dont add to docker!
+    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" "libvirtd" ]; # note dont add to docker!
     initialPassword = "changeme";
   };
 
@@ -150,6 +150,7 @@ in
 
     # Tools
     htop
+    iotop
     wget
     ncdu
 #   chezmoi
@@ -159,6 +160,10 @@ in
 #   ryzenadj  # FIXME
     ncpamixer  # terminal pavucontrol
     vim
+
+    # Virtualization
+    docker-compose
+    virt-manager
 
     # Dekstop
     pinentry-curses
@@ -174,7 +179,10 @@ in
   #   keep-derivations = true
   # '';
 
-  # virtualisation.docker.enable = true;
+  # Virtualisation
+  virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
