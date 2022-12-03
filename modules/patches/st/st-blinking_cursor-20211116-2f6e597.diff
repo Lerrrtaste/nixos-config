@@ -46,7 +46,7 @@ index 89786b8..7d2447d 100644
 @@ -253,6 +253,7 @@ static char *opt_name  = NULL;
  static char *opt_title = NULL;
  
- static int oldbutton = 3; /* button event on startup: 3 = release */
+ static uint buttons; /* bit field of pressed buttons */
 +static int cursorblinks = 0;
  
  void
