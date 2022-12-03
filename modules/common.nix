@@ -159,11 +159,12 @@ in
     wireguard-tools
 #   ryzenadj  # FIXME
     ncpamixer  # terminal pavucontrol
+
     vim
 
     # Virtualization
-    docker-compose
-    virt-manager
+    # docker-compose
+    # virt-manager
 
     # Dekstop
     pinentry-curses
@@ -180,9 +181,9 @@ in
   # '';
 
   # Virtualisation
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
+  # virtualisation.docker.enable = true;
+  # virtualisation.libvirtd.enable = true;
+  # programs.dconf.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;

@@ -9,9 +9,15 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  # boot.initrd.kernelModules = [ "ati" ];
+  boot.kernelModules = [ "ati" "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [ ];
+
+  # # Enable Vulkan
+  # hardware.opengl.driSupport = true;
+  # hardware.opengl.driSupport32Bit = true; # For 32 bit applications
+
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f5ce4bf2-95f1-4d81-a086-dad583582cac";
