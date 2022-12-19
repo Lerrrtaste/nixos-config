@@ -33,6 +33,7 @@ in
     "steam"
     "steam-original"
     "steam-runtime"
+    "steam-run"
   ];
 
   # Time zone
@@ -169,6 +170,8 @@ in
     # Dekstop
     pinentry-curses
     feh
+    gsettings-desktop-schemas
+    glib
 
     # QOL
     xcape
