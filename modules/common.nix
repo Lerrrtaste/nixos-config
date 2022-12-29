@@ -170,8 +170,8 @@ in
     # Dekstop
     pinentry-curses
     feh
-    gsettings-desktop-schemas
-    glib
+    # gsettings-desktop-schemas
+    # glib
 
     # QOL
     xcape
