@@ -154,22 +154,22 @@ in
     iotop
     wget
     ncdu
-#   chezmoi
     git
     nethogs
     wireguard-tools
-#   ryzenadj  # FIXME
     ncpamixer  # terminal pavucontrol
-
     vim
 
     # Virtualization
-    # docker-compose
+    docker-compose
     # virt-manager
 
     # Dekstop
     pinentry-curses
     feh
+    libnotify
+    tiramisu
+    herbe
     # gsettings-desktop-schemas
     # glib
 
@@ -184,7 +184,7 @@ in
   # '';
 
   # Virtualisation
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   # virtualisation.libvirtd.enable = true;
   # programs.dconf.enable = true;
 
