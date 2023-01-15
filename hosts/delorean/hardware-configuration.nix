@@ -24,6 +24,28 @@
       fsType = "ext4";
     };
 
+  # cruzer usb sticks
+  fileSystems."/mnt/cruzer1" = {
+    device = "/dev/disk/by-label/cruzer1";
+    fsType = "ext4";
+    options = [ "noauto" "user" "defaults" ];
+  };
+  fileSystems."/mnt/cruzer2" = {
+    device = "/dev/disk/by-label/cruzer2";
+    fsType = "ext4";
+    options = [ "noauto" "user" "defaults" ];
+  };
+  fileSystems."/mnt/cruzer3" = {
+    device = "/dev/disk/by-label/cruzer3";
+    fsType = "ext4";
+    options = [ "noauto" "user" "defaults" ];
+  };
+  fileSystems."/mnt/cruzer4" = {
+    device = "/dev/disk/by-label/cruzer4";
+    fsType = "ext4";
+    options = [ "noauto" "user" "defaults" ];
+  };
+
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/63d25036-4b8f-46c3-a6c4-a82dddd8f2b8";
 
   fileSystems."/boot" =
