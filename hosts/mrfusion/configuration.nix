@@ -48,6 +48,10 @@
 
   # Laptop Hardware
   services.xserver.libinput.enable = true;  # touchpad
+  services.xserver.libinput.touchpad = {
+    disableWhileTyping = true;
+    tapping = false;
+  };
   environment.systemPackages = [
     pkgs.brightnessctl # brightnessctl s 50%
   ];
