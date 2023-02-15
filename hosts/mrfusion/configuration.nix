@@ -50,7 +50,7 @@
   services.xserver.libinput.enable = true;  # touchpad
   services.xserver.libinput.touchpad = {
     disableWhileTyping = true;
-    tapping = false;
+    tapping = true;
   };
   environment.systemPackages = [
     pkgs.brightnessctl # brightnessctl s 50%

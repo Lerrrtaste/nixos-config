@@ -159,6 +159,7 @@ in
     wireguard-tools
     ncpamixer  # terminal pavucontrol
     vim
+    nmap
 
     # Virtualization
     docker-compose
