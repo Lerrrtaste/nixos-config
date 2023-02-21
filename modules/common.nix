@@ -115,6 +115,7 @@ in
    hardware.sane.extraBackends = [ pkgs.sane-airscan ];
    services.avahi.enable = true;
    services.avahi.nssmdns = true;
+   services.avahi.openFirewall = true; # for wifi printer
    nixpkgs.config.packageOverrides = pkgs: {
      xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
    };
@@ -210,7 +211,7 @@ in
 
   # Firewall
   networking.firewall.enable = true;  
-  networking.firewall.allowedTCPPorts = [  ];
+  networking.firewall.allowedTCPPorts = [ 22 ];
   networking.firewall.allowedUDPPorts = [  ];
   
 

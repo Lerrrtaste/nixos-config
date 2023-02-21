@@ -87,9 +87,9 @@
   };
 
   # Packages
-  environment.systemPackages = with pkgs; [
+  # environment.systemPackages = with pkgs; [
 
-  ];
+  # ];
 
   # Bluetooth
   hardware.bluetooth = {
@@ -103,9 +103,9 @@
   };
 
   services.blueman.enable = true;
-  hardware.pulseaudio.extraConfig = "
+  hardware.pulseaudio.extraConfig = ''
     load-module module-switch-on-connect
-  ";
+  '';
   # Services
   # FIXME needs ssl cert (generate it here!)
   # TODO (dwm) shortcuts (. -> mrfusion , comma -> delorean screen)
