@@ -87,9 +87,9 @@
   };
 
   # Packages
-  # environment.systemPackages = with pkgs; [
-
-  # ];
+  environment.systemPackages = with pkgs; [
+    mdadm
+  ];
 
   # Bluetooth
   hardware.bluetooth = {
