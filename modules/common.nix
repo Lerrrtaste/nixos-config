@@ -50,10 +50,12 @@ in
   # Disk Health
   services.smartd = {
     enable = true;
+    autodetect = true;
+    defaults.autodetected = "-a -s (S/../.././13|L/../../5/08)";
     notifications.test = true;
-    notifications.x11 = {
-      enable = true;
-    };
+    notifications.x11.enable = true;
+    notifications.wall.enable = true;
+
   };
 
   # X11
@@ -170,8 +172,9 @@ in
     pinentry-curses
     feh
     libnotify
-    tiramisu
-    herbe
+    dunst
+    # tiramisu
+    # herbe
     # gsettings-desktop-schemas
     # glib
 
