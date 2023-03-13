@@ -18,9 +18,24 @@
   # hardware.opengl.driSupport = true;
   # hardware.opengl.driSupport32Bit = true; # For 32 bit applications
 
+  # Main ssd
+  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/63d25036-4b8f-46c3-a6c4-a82dddd8f2b8";
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/A2A2-741D";
+      fsType = "vfat";
+    };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f5ce4bf2-95f1-4d81-a086-dad583582cac";
+      fsType = "ext4";
+    };
+
+  # Data Raid
+  boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/d3e68092-af98-48a1-92b0-b1610acb22b2";
+
+  fileSystems."/media/data" =
+    { device = "/dev/disk/by-uuid/6d8d3e0f-61b0-448a-8d34-eb8cc91862e2";
       fsType = "ext4";
     };
 
@@ -45,17 +60,6 @@
     fsType = "ext4";
     options = [ "noauto" "user" "defaults" ];
   };
-
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/63d25036-4b8f-46c3-a6c4-a82dddd8f2b8";
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/A2A2-741D";
-      fsType = "vfat";
-    };
-  fileSystems."/media/hdd" =
-    { device = "/dev/disk/by-label/HDD";
-      fsType = "ext4";
-    };
 
   swapDevices = [ ];
 
