@@ -29,22 +29,6 @@
     wifi.backend = "wpa_supplicant";
   };
 
-  # LUKS
-  boot.initrd.luks.fido2Support = true;
-  boot.initrd.luks.devices = {
-    cryptroot = {
-      device = "/dev/disk/by-uuid/63d25036-4b8f-46c3-a6c4-a82dddd8f2b8";
-      fido2.passwordLess = true;
-      preLVM = true;
-      allowDiscards = true;
-    };
-  };
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];  # better for ssds (?)
-
-#─sda1          8:1    0   500M  0 part  /mnt/boot      A2A2-741D
-#─sda2          8:2    0 232.4G  0 part                 63d25036-4b8f-46c3-a6c4-a82dddd8f2b8
-# └─cryptroot 254:1    0 232.4G  0 crypt /mnt           f5ce4bf2-95f1-4d81-a086-dad583582cac
-
   # Displays
   services.xserver.enable = true;
   # services.xserver.videoDrivers = [ "ati" ];
