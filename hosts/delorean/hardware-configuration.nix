@@ -23,10 +23,10 @@
     reusePassphrases = true;
   };
 
-  # Main ssd
+  ### Root SSD ###
   boot.initrd.luks.devices."cryptroot" = {
     device = "/dev/disk/by-uuid/63d25036-4b8f-46c3-a6c4-a82dddd8f2b8";
-      # fido2.passwordLess = true;
+      # fido2.passwordLess = true; # TODO
       preLVM = true;
       allowDiscards = true;
   };
@@ -39,32 +39,63 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/f5ce4bf2-95f1-4d81-a086-dad583582cac";
     fsType = "ext4";
-    options = [ "noatime" "nodiratime" "discard" ];  # better for ssds (?)
+    options = [
+      "noatime"
+      "nodiratime"
+      "discard"
+    ];
   };
 
-  #─sda1          8:1    0   500M  0 part  /mnt/boot      A2A2-741D
-  #─sda2          8:2    0 232.4G  0 part                 63d25036-4b8f-46c3-a6c4-a82dddd8f2b8
-  # └─cryptroot 254:1    0 232.4G  0 crypt /mnt           f5ce4bf2-95f1-4d81-a086-dad583582cac
 
-  # Data Raid
-  boot.initrd.luks.devices."cryptdata" = {
-    device = "/dev/disk/by-uuid/d3e68092-af98-48a1-92b0-b1610acb22b2";
-  };
 
-  fileSystems."/media/data" = {
-    device = "/dev/disk/by-uuid/6d8d3e0f-61b0-448a-8d34-eb8cc91862e2";
+  ### Data Raid ###
+  fileSystems."/media/raid" = {
+    label = "dataraid";
+    device = "/dev/mapper/cryptraid";
     fsType = "ext4";
+    options = [
+      "defaults"
+      "noatime"
+      "nodiratime"
+      "discard"
+      "nofail"
+    ];
+    neededForBoot = false;
+    encrypted.enable = true;
+    encrypted.keyFile = "/mnt-root/root/keyfile_data_raid";
+    encrypted.label = "cryptraid";
+    encrypted.blkDev = "/dev/disk/by-uuid/6d8d3e0f-61b0-448a-8d34-eb8cc91862e2";
   };
+  # TODO show raid status on boot / login
 
-  # Data SSD
-  fileSystems."/media/ssd" =
-    { device = "/dev/disk/by-uuid/ec126fb7-eb60-44e3-b33e-42c98cc1b905";
+  # systemd.timers.raidCheck = {
+  #   description = "Monthly Data RAID check and scrub";
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig.OnCalendar = "monthly";
+  #   unitConfig = {
+  #     serviceConfig = {
+  #       ExecStart = "${pkgs.mdadm}/sbin/mdadm --monitor --scan --action=check";
+  #     };
+  #   };
+  # };
+
+  ### Data SSD ###
+  fileSystems."/media/ssd" = {
+    device = "/dev/mapper/cryptssd";
+      label = "datassd";
       fsType = "ext4";
+      options = [
+        "defaults"
+        "nofail"
+      ];
+      neededForBoot = false;
+      encrypted.enable = true;
+      encrypted.keyFile = "/mnt-root/root/keyfile_data_ssd";
+      encrypted.label = "cryptssd";
+      encrypted.blkDev = "/dev/disk/by-uuid/ec126fb7-eb60-44e3-b33e-42c98cc1b905";
     };
 
-  boot.initrd.luks.devices."cryptssd".device = "/dev/disk/by-uuid/57229b63-8308-4525-8223-58205a52cc83";
-
-  # cruzer usb sticks
+  ### Cruzer USB Sticks ###
   fileSystems."/mnt/cruzer1" = {
     device = "/dev/disk/by-label/cruzer1";
     fsType = "ext4";
