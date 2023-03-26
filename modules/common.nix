@@ -15,7 +15,9 @@ in
   imports = [
 # TODO install home-manager as module (atm add channel and
 # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
-    ];
+#
+   "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix"
+  ];
 
   # Nix
   nix.settings.auto-optimise-store = true;
@@ -151,6 +153,7 @@ in
     onlykey
     onlykey-agent # TODO find out how to use
     gpa
+    (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
 
     # Tools
     htop
@@ -216,7 +219,9 @@ in
   networking.firewall.enable = true;  
   networking.firewall.allowedTCPPorts = [ 22 ];
   networking.firewall.allowedUDPPorts = [  ];
-  
+
+  # Secrets
+  age.secrets.testsecret.file = ../secrets/testsecret.age;
 
   # Random things
 
@@ -247,3 +252,4 @@ in
   # RAM + max(1GB, sqrt(RAM)) = 3007.000.
   # swapDevices = [ { device = "/swapfile"; size = 1024; } ];
 }
+
