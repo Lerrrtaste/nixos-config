@@ -206,6 +206,7 @@ in
     openFirewall = true;
     passwordAuthentication = false;
     permitRootLogin = "no";
+    forwardX11 = true;
   };
   programs.ssh.startAgent = true;
 
@@ -215,13 +216,14 @@ in
     agent.pinentryFlavor = "curses";
   };
 
-  # Firewall
-  networking.firewall.enable = true;  
-  networking.firewall.allowedTCPPorts = [ 22 ];
-  networking.firewall.allowedUDPPorts = [  ];
-
   # Secrets
   age.secrets.testsecret.file = ../secrets/testsecret.age;
+
+  # Firewall
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.allowedUDPPorts = [ ];
+  
 
   # Random things
 
