@@ -54,6 +54,7 @@
   };
   environment.systemPackages = [
     pkgs.brightnessctl # brightnessctl s 50%
+    pkgs.nvtop-amd
   ];
 
   # Graphics
