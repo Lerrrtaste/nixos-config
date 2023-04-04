@@ -161,6 +161,7 @@ in
 
     # Tools
     htop
+    btop
     iotop
     wget
     ncdu
