@@ -48,10 +48,11 @@
 
 
 
-  ### Data Raid ###
-  fileSystems."/media/raid" = {
-    label = "dataraid";
-    device = "/dev/mapper/cryptraid";
+  ### Data SSD and Raid ###
+
+  fileSystems."/media/ssd" = {
+    device = "/dev/mapper/cryptssd";
+    label = "datassd";
     fsType = "ext4";
     options = [
       "defaults"
@@ -60,62 +61,22 @@
       "discard"
       "nofail"
     ];
-    neededForBoot = false;
-    encrypted.enable = true;
-    encrypted.keyFile = "/mnt-root/root/keyfile_data_raid";
-    encrypted.label = "cryptraid";
-    encrypted.blkDev = "/dev/disk/by-uuid/6d8d3e0f-61b0-448a-8d34-eb8cc91862e2";
   };
-  # TODO show raid status on boot / login
 
-  # systemd.timers.raidCheck = {
-  #   description = "Monthly Data RAID check and scrub";
-  #   wantedBy = [ "timers.target" ];
-  #   timerConfig.OnCalendar = "monthly";
-  #   unitConfig = {
-  #     serviceConfig = {
-  #       ExecStart = "${pkgs.mdadm}/sbin/mdadm --monitor --scan --action=check";
-  #     };
-  #   };
-  # };
+  fileSystems."/media/raid" = {
+    label = "dataraid";
+    device = "/dev/mapper/cryptraid";
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "nofail"
+    ];
+  };
 
-  ### Data SSD ###
-  fileSystems."/media/ssd" = {
-    device = "/dev/mapper/cryptssd";
-      label = "datassd";
-      fsType = "ext4";
-      options = [
-        "defaults"
-        "nofail"
-      ];
-      neededForBoot = false;
-      encrypted.enable = true;
-      encrypted.keyFile = "/mnt-root/root/keyfile_data_ssd";
-      encrypted.label = "cryptssd";
-      encrypted.blkDev = "/dev/disk/by-uuid/ec126fb7-eb60-44e3-b33e-42c98cc1b905";
-    };
-
-  ### Cruzer USB Sticks ###
-  fileSystems."/mnt/cruzer1" = {
-    device = "/dev/disk/by-label/cruzer1";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer2" = {
-    device = "/dev/disk/by-label/cruzer2";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer3" = {
-    device = "/dev/disk/by-label/cruzer3";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer4" = {
-    device = "/dev/disk/by-label/cruzer4";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
+  environment.etc."crypttab".text = ''
+    cryptssd /dev/disk/by-uuid/57229b63-8308-4525-8223-58205a52cc83 /root/keyfile_data_ssd
+    cryptraid /dev/disk/by-uuid/d3e68092-af98-48a1-92b0-b1610acb22b2 /root/keyfile_data_raid
+  '';
 
   swapDevices = [ ];
 
