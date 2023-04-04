@@ -23,28 +23,6 @@
       fsType = "vfat";
     };
 
-  # cruzer usb sticks
-  fileSystems."/mnt/cruzer1" = {
-    device = "/dev/disk/by-label/cruzer1";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer2" = {
-    device = "/dev/disk/by-label/cruzer2";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer3" = {
-    device = "/dev/disk/by-label/cruzer3";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-  fileSystems."/mnt/cruzer4" = {
-    device = "/dev/disk/by-label/cruzer4";
-    fsType = "ext4";
-    options = [ "noauto" "user" "defaults" ];
-  };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/1575980a-76d1-4a85-a69e-75b8fe089988"; }
     ];
