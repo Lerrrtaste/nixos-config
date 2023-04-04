@@ -233,12 +233,6 @@ in
   # Secrets
   age.secrets.testsecret.file = ../secrets/testsecret.age;
 
-  # Firewall
-  networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
-  
-
   # Random things
 
   # Copy the NixOS configuration file and link it from the resulting system
