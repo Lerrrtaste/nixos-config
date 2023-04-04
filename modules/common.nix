@@ -143,7 +143,10 @@ in
   };
 
   # Gaming
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+  };
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -216,6 +219,15 @@ in
     agent.enable = true;
     agent.pinentryFlavor = "curses";
   };
+
+  # Firewall
+  networking.firewall.enable = true;  
+  networking.firewall.allowedTCPPorts = [ 22
+                                          # steam local dl
+                                          24070
+                                        ];
+
+  networking.firewall.allowedUDPPorts = [  ];
 
   # Secrets
   age.secrets.testsecret.file = ../secrets/testsecret.age;
