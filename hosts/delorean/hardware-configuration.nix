@@ -76,6 +76,9 @@
   environment.etc."crypttab".text = ''
     cryptssd /dev/disk/by-uuid/57229b63-8308-4525-8223-58205a52cc83 /root/keyfile_data_ssd
     cryptraid /dev/disk/by-uuid/d3e68092-af98-48a1-92b0-b1610acb22b2 /root/keyfile_data_raid
+    cryptcruzer1 /dev/disk/by-uuid/796cbd8a-b6e5-4c20-b6a5-04a471d3a64d /root/keyfile_cruzers
+    cryptcruzer2 /dev/disk/by-uuid/25d63b4d-4a03-4160-896d-b7be71e257e8 /root/keyfile_cruzers
+    cryptcruzer3 /dev/disk/by-uuid/bf241007-9646-400a-867a-7b4fa1748e6f /root/keyfile_cruzers
   '';
 
   swapDevices = [ ];

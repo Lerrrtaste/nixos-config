@@ -23,6 +23,12 @@
       fsType = "vfat";
     };
 
+  # environment.etc."crypttab".text = ''
+  #   cryptcruzer1 /dev/796cbd8a-b6e5-4c20-b6a5-04a471d3a64d /root/keyfile_cruzers
+  #   cryptcruzer2 /dev/25d63b4d-4a03-4160-896d-b7be71e257e8 /root/keyfile_cruzers
+  #   cryptcruzer3 /dev/bf241007-9646-400a-867a-7b4fa1748e6f /root/keyfile_cruzers
+  # '';
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/1575980a-76d1-4a85-a69e-75b8fe089988"; }
     ];
