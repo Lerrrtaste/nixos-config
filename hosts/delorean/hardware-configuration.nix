@@ -81,7 +81,12 @@
     cryptcruzer3 /dev/disk/by-uuid/bf241007-9646-400a-867a-7b4fa1748e6f /root/keyfile_cruzers
   '';
 
-  swapDevices = [ ];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 16384;
+    }
+  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
