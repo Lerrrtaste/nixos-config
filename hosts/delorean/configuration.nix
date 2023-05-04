@@ -108,6 +108,23 @@ in
         };
       };
 
+      "deck" = {
+        fingerprint = default_fingerprints;
+        config = {
+          HDMI-A-0 = {
+            enable = false;
+          };
+          DisplayPort-1 = {
+            enable = false;
+          };
+          DisplayPort-2 = {
+            enable = true;
+            primary = true;
+            mode = "1280x800";
+          };
+        };
+      };
+
 
       "hdesk" = {
         fingerprint = default_fingerprints;
@@ -162,6 +179,9 @@ in
     # OpenCL for radv (not amdvlk)
     rocm-opencl-icd
     rocm-opencl-runtime
+
+    # steam mode
+    openbox
   ];
 
   # Bluetooth
@@ -218,6 +238,21 @@ in
   #   initialPassword = "changeme";
   #   cryptHomeLuks = "/dev/mapper/cryptraid";
   # };
+
+  # Console Gaming User
+  # users.users.steam = {
+  #   isNormalUser = true;
+  #   home = "/home/steam"; #shared between steamdeck and steambp
+  #   group = "steam";
+  #   extraGroups = [ "users" "wheel" "networkmanager" ]; # note dont add to docker!
+  #   initialPassword = "changeme";
+  #   packages = [
+  #     pkgs.tinywm
+  #     pkgs.xdotool
+  #   ];
+  # };
+
+  users.motd = "Welcome to Delorean!";
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
