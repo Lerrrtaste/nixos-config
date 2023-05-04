@@ -6,7 +6,7 @@
     label = "cruzer1";
     device = "/dev/mapper/cryptcruzer1";
     fsType = "ext4";
-    options = [ "noauto" "nofail" "user" "defaults" ];
+    options = [ "nofail" "user" "defaults" ];
   };
 
   fileSystems."/mnt/cruzer2" = {
