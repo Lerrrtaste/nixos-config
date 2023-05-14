@@ -147,6 +147,7 @@ in
     enable = true;
     remotePlay.openFirewall = true;
   };
+  hardware.steam-hardware.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [

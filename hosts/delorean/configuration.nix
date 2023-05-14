@@ -73,17 +73,17 @@ in
         config = {
           HDMI-A-0 = {
             enable = true;
-            primary = true;
-            mode = "1920x1080";
-            position = "0x1000";
+            primary = false;
+            mode = "2560x1080";
+            position = "2560x0";
+            rotate = "right";
+            rate = "75";
           };
           DisplayPort-1 = {
             enable = true;
-            primary = false;
-            mode = "2560x1080";
-            position = "1920x0";
-            rotate = "right";
-            rate = "75";
+            primary = true;
+            mode = "2560x1440";
+            position = "0x500";
           };
           DisplayPort-2 = {
             enable = false;
@@ -186,6 +186,7 @@ in
 
   # Bluetooth
   hardware.bluetooth = {
+    package = pkgs.bluezFull;
     enable = true;
     settings =
     {
