@@ -55,8 +55,8 @@ in
     enable = true;
     autodetect = true;
     defaults.autodetected = "-a -s (S/../.././13|L/../../5/08)";
-    # notifications.test = true;
-    # notifications.x11.enable = true;
+    notifications.test = true;
+    notifications.x11.enable = true;
     notifications.wall.enable = true;
 
   };
@@ -106,7 +106,7 @@ in
   };
 
   # Notifications
-  # TODO where do they come from?
+
 
 
   # Keyboard
@@ -179,8 +179,8 @@ in
     # Dekstop
     pinentry-curses
     feh
-    # libnotify
-    # dunst
+    libnotify
+    dunst
     # tiramisu
     # herbe
     # gsettings-desktop-schemas
