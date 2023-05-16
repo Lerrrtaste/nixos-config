@@ -134,7 +134,7 @@ in
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" "libvirtd" ]; # note dont add to docker!
+    extraGroups = [ "docker" "wheel" "networkmanager" "scanner" "lp" "libvirtd" ]; # note dont add to docker!
     initialPassword = "changeme";
   };
 
@@ -197,7 +197,11 @@ in
   # '';
 
   # Virtualisation
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
   # virtualisation.libvirtd.enable = true;
   # programs.dconf.enable = true;
 
