@@ -55,7 +55,21 @@
   environment.systemPackages = [
     pkgs.brightnessctl # brightnessctl s 50%
     pkgs.nvtop-amd
+    pkgs.powertop
   ];
+  services.tlp.enable = true;
+  services.tlp.settings = {
+    CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    CPU_MIN_PERF_ON_BAT = 0;
+    CPU_MAX_PERF_ON_BAT = 25;
+    PCIE_ASPM_ON_BAT = "powersave";
+    SATA_LINKPWR_ON_BAT = "min_power";
+    BRIGHTNESS_ON_BAT = 30;
+    WIFI_PWR_ON_BAT = 5;
+    SOUND_POWER_SAVE_ON_BAT = 1;
+    USB_AUTOSUSPEND = 1;
+    DISK_IDLE_SECS_ON_BAT = 60;
+  };
 
   # Graphics
   services.xserver.videoDrivers = [ "amdgpu" ];
