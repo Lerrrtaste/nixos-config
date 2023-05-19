@@ -235,7 +235,7 @@ in
   networking.firewall.allowedUDPPorts = [  ];
 
   # Secrets
-  age.secrets.testsecret.file = ../secrets/testsecret.age;
+  # age.secrets.testsecret.file = ../secrets/testsecret.age;
 
   # Random things
 
