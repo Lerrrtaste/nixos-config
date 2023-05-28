@@ -3,21 +3,25 @@
 #
 # Common configuration for all systems
 
-{ config, lib, pkgs, options, ...}:
+{ config, lib, pkgs, options, ... }:
 let
-  dwm_src = if builtins.pathExists("/home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm") then
+  dwm_src = if builtins.pathExists
+  ("/home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm") then
     /home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm
   else
-    builtins.fetchGit "https://github.com/lerrrtaste/custom-dwm.git";  # to force download --option tarball-ttl 0 (default 1 hr)
+    builtins.fetchGit
+    "https://github.com/lerrrtaste/custom-dwm.git"; # to force download --option tarball-ttl 0 (default 1 hr)
 
-in
-{
+in {
   imports = [
-# TODO install home-manager as module (atm add channel and
-# nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
-#
-   "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix"
-   ./cruzers.nix
+    # TODO install home-manager as module (atm add channel and
+    # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
+    #
+    "${
+      builtins.fetchTarball
+      "https://github.com/ryantm/agenix/archive/main.tar.gz"
+    }/modules/age.nix"
+    ./cruzers.nix
   ];
 
   # Nix
@@ -31,13 +35,14 @@ in
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
   ''; # run gc when free space is less than 500MB and keep at least 2GB free
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "canon-cups-ufr2"
-    "steam"
-    "steam-original"
-    "steam-runtime"
-    "steam-run"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "canon-cups-ufr2"
+      "steam"
+      "steam-original"
+      "steam-runtime"
+      "steam-run"
+    ];
 
   # Time zone
   time.timeZone = "Europe/Berlin";
@@ -53,12 +58,12 @@ in
   # Disk Health
   services.smartd = {
     enable = true;
+
     autodetect = true;
     defaults.autodetected = "-a -s (S/../.././13|L/../../5/08)";
     notifications.test = true;
     notifications.x11.enable = true;
     notifications.wall.enable = true;
-
   };
 
   # X11
@@ -68,16 +73,12 @@ in
   services.xserver.displayManager.startx.enable = true;
 
   # Fonts
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-  ];
+  fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
   # Suckless
   nixpkgs.overlays = [
     (self: super: {
-      dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-        src = dwm_src;
-      });
+      dwm = super.dwm.overrideAttrs (oldAttrs: rec { src = dwm_src; });
     })
     (self: super: { # TODO move to own repo
       st = super.st.overrideAttrs (oldAttrs: rec {
@@ -96,34 +97,32 @@ in
     enable = true;
     fade = true;
     shadow = true;
-     settings = {
-       blur = { # FIXME doesnt work
-         method = "gaussian";
-         size = 10;
-         deviation = 10;
-       };
-     };
+    settings = {
+      blur = { # FIXME doesnt work
+        method = "gaussian";
+        size = 10;
+        deviation = 10;
+      };
+    };
   };
 
   # Notifications
 
-
-
   # Keyboard
   services.xserver.layout = "de";
-  services.xserver.xkbOptions = "ctrl:nocaps";  # map caps to escape.
+  services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-   services.printing.enable = true;
-   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
-   hardware.sane.enable = true;
-   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-   services.avahi.enable = true;
-   services.avahi.nssmdns = true;
-   services.avahi.openFirewall = true; # for wifi printer
-   nixpkgs.config.packageOverrides = pkgs: {
-     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-   };
+  services.printing.enable = true;
+  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  services.avahi.openFirewall = true; # for wifi printer
+  nixpkgs.config.packageOverrides = pkgs: {
+    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  };
 
   # Sound
   sound.enable = true;
@@ -134,12 +133,19 @@ in
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
-    extraGroups = [ "docker" "wheel" "networkmanager" "scanner" "lp" "libvirtd" ]; # note dont add to docker!
+    extraGroups = [
+      "docker"
+      "wheel"
+      "networkmanager"
+      "scanner"
+      "lp"
+      "libvirtd"
+    ]; # note dont add to docker!
     initialPassword = "changeme";
   };
 
   users.users.root = {
-    hashedPassword = "!";  # Disable password-based login for root.
+    hashedPassword = "!"; # Disable password-based login for root.
   };
 
   # Gaming
@@ -158,7 +164,10 @@ in
     onlykey
     onlykey-agent # TODO find out how to use
     gpa
-    (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
+    (pkgs.callPackage "${
+        builtins.fetchTarball
+        "https://github.com/ryantm/agenix/archive/main.tar.gz"
+      }/pkgs/agenix.nix" { })
 
     # Tools
     htop
@@ -168,7 +177,7 @@ in
     git
     nethogs
     wireguard-tools
-    ncpamixer  # terminal pavucontrol
+    ncpamixer # terminal pavucontrol
     vim
     nmap
 
@@ -188,6 +197,10 @@ in
 
     # QOL
     xcape
+
+    # Deps
+    xorg.xmessage # smartd notifications
+    libfido2
   ];
 
   # For nix-direnv (prevents gc, but its optional)
@@ -208,7 +221,6 @@ in
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
 
-
   # OpenSSH
   services.openssh = {
     enable = true;
@@ -226,16 +238,27 @@ in
   };
 
   # Firewall
-  networking.firewall.enable = true;  
-  networking.firewall.allowedTCPPorts = [ 22
-                                          # steam local dl
-                                          24070
-                                        ];
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [
+    22
+    # steam local dl
+    24070
+  ];
 
-  networking.firewall.allowedUDPPorts = [  ];
+  # wg-quick
+  networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
+
+  networking.firewall.allowedUDPPorts = [ ];
 
   # Secrets
-  # age.secrets.testsecret.file = ../secrets/testsecret.age;
+  age.secrets.wg-quick-conf = {
+    file = /etc/nixos/secrets/wg-quick-conf.age;
+    name = "wg-quick-conf";
+    # path = "/etc/wireguard/wg0.conf";
+    # mode = "770";
+    # owner = "lerrrtaste";
+    # group = "root";
+  };
 
   # Random things
 
