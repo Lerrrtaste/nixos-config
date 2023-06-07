@@ -224,10 +224,12 @@ in {
   # OpenSSH
   services.openssh = {
     enable = true;
+    settings = {
+      X11Forwarding = false;
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
     openFirewall = true;
-    passwordAuthentication = false;
-    permitRootLogin = "no";
-    forwardX11 = true;
   };
   programs.ssh.startAgent = true;
 
