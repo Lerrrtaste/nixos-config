@@ -113,16 +113,16 @@ in {
   services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
-  hardware.sane.enable = true;
-  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
-  services.avahi.openFirewall = true; # for wifi printer
-  nixpkgs.config.packageOverrides = pkgs: {
-    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-  };
+  # services.printing.enable = true;
+  # services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+  # hardware.sane.enable = true;
+  # hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  # services.avahi.enable = true;
+  # services.avahi.nssmdns = true;
+  # services.avahi.openFirewall = true; # for wifi printer
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  # };
 
   # Sound
   sound.enable = true;
@@ -248,7 +248,7 @@ in {
   ];
 
   # wg-quick
-  networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
+  # networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
 
   networking.firewall.allowedUDPPorts = [ ];
 
@@ -256,7 +256,7 @@ in {
   age.secrets.wg-quick-conf = {
     file = /etc/nixos/secrets/wg-quick-conf.age;
     name = "wg-quick-conf";
-    # path = "/etc/wireguard/wg0.conf";
+    path = "/etc/wireguard/wg0.conf";
     # mode = "770";
     # owner = "lerrrtaste";
     # group = "root";
