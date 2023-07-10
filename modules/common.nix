@@ -113,16 +113,16 @@ in {
   services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-  # services.printing.enable = true;
-  # services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
-  # hardware.sane.enable = true;
-  # hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  # services.avahi.enable = true;
-  # services.avahi.nssmdns = true;
+  services.printing.enable = true;
+  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
   # services.avahi.openFirewall = true; # for wifi printer
-  # nixpkgs.config.packageOverrides = pkgs: {
-  #   xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-  # };
+  nixpkgs.config.packageOverrides = pkgs: {
+    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  };
 
   # Sound
   sound.enable = true;

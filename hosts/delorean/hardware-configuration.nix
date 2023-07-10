@@ -81,10 +81,13 @@
     cryptcruzer3 /dev/disk/by-uuid/bf241007-9646-400a-867a-7b4fa1748e6f /root/keyfile_cruzers nofail
   '';
 
+
+  ### SWAP ###
   swapDevices = [
     {
       device = "/swapfile";
-      size = 4096;
+      # size = 4096;
+      size = 8192;
     }
   ];
 
