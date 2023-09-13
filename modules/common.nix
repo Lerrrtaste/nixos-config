@@ -124,6 +124,8 @@ in {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
   };
 
+  # Moonlander
+  hardware.keyboard.zsa.enable = true;
   # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -180,6 +182,7 @@ in {
     ncpamixer # terminal pavucontrol
     vim
     nmap
+    wally-cli
 
     # Virtualization
     docker-compose
