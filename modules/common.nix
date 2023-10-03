@@ -42,6 +42,10 @@ in {
       "steam-original"
       "steam-runtime"
       "steam-run"
+"nvidia-x11"
+"nvidia-settings"
+"nvidia-persistenced"
+"cudatoolkit"
     ];
 
   # Time zone
@@ -185,8 +189,8 @@ in {
     wally-cli
 
     # Virtualization
-    docker-compose
-    # virt-manager
+    # docker-compose
+    virt-manager
 
     # Dekstop
     pinentry-curses
@@ -214,12 +218,12 @@ in {
 
   # Virtualisation
   # virtualisation.docker.enable = true;
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
-  # virtualisation.libvirtd.enable = true;
-  # programs.dconf.enable = true;
+  # virtualisation.docker.rootless = {
+  #  enable = true;
+  #  setSocketVariable = true;
+  #};
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
@@ -229,7 +233,7 @@ in {
     enable = true;
     settings = {
       X11Forwarding = false;
-      PermitRootLogin = "no";
+      PermitRootLogin = "yes";
       PasswordAuthentication = false;
     };
     openFirewall = true;
@@ -256,14 +260,14 @@ in {
   networking.firewall.allowedUDPPorts = [ ];
 
   # Secrets
-  age.secrets.wg-quick-conf = {
-    file = /etc/nixos/secrets/wg-quick-conf.age;
-    name = "wg-quick-conf";
-    path = "/etc/wireguard/wg0.conf";
+  # age.secrets.wg-quick-conf = {
+    # file = /etc/nixos/secrets/wg-quick-conf.age;
+    # name = "wg-quick-conf";
+    # path = "/etc/wireguard/wg0.conf";
     # mode = "770";
     # owner = "lerrrtaste";
     # group = "root";
-  };
+  # };
 
   # Random things
 

@@ -4,6 +4,8 @@ let
     "HP EN" = "mrfusion";
 
     "MS-7B" = "delorean";
+
+    "MS-7D" = "doc";
   };
   lookup = attrs: key:
     if attrs ? ${builtins.substring 0 5 key} then attrs."${builtins.substring 0 5 key}" else builtins.abort ("Unknown hardware: " + hardware_name);
