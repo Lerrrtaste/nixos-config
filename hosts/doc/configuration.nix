@@ -45,6 +45,11 @@ in
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
   };
 
+  # Mouse
+  hardware.openrazer.enable = true;
+  hardware.openrazer.users = ["lerrrtaste"];
+
+
   # Displays
   services.xserver.enable = true;
   services.autorandr = {
@@ -75,7 +80,6 @@ in
     nvtop
     corectrl
     polychromatic
-    openrazer-daemon
   ];
 
   # Bluetooth
