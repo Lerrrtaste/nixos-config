@@ -41,7 +41,7 @@ in
     powerManagement.finegrained = false;
     open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+    # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
   };
 
@@ -84,7 +84,7 @@ in
 
   # Bluetooth
   hardware.bluetooth = {
-    package = pkgs.bluezFull;
+    package = pkgs.bluez;
     enable = true;
     settings =
     {

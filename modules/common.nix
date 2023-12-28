@@ -77,7 +77,7 @@ in {
   services.xserver.displayManager.startx.enable = true;
 
   # Fonts
-  fonts.fonts = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
+  fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
   # Suckless
   nixpkgs.overlays = [
@@ -189,7 +189,7 @@ in {
     wally-cli
 
     # Virtualization
-    # docker-compose
+    docker-compose
     virt-manager
 
     # Dekstop
@@ -217,11 +217,11 @@ in {
   # '';
 
   # Virtualisation
-  # virtualisation.docker.enable = true;
-  # virtualisation.docker.rootless = {
-  #  enable = true;
-  #  setSocketVariable = true;
-  #};
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+   enable = true;
+   setSocketVariable = true;
+  };
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
