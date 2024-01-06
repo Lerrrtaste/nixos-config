@@ -35,18 +35,18 @@ in {
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
   ''; # run gc when free space is less than 500MB and keep at least 2GB free
-#   nixpkgs.config.allowUnfreePredicate = pkg:
-#     builtins.elem (lib.getName pkg) [
-#       "canon-cups-ufr2"
-#       "steam"
-#       "steam-original"
-#       "steam-runtime"
-#       "steam-run"
-# "nvidia-x11"
-# "nvidia-settings"
-# "nvidia-persistenced"
-# "cudatoolkit"
-#     ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "canon-cups-ufr2"
+      "steam"
+      "steam-original"
+      "steam-runtime"
+      "steam-run"
+"nvidia-x11"
+"nvidia-settings"
+"nvidia-persistenced"
+"cudatoolkit"
+    ];
 
   # Time zone
   time.timeZone = "Europe/Berlin";
@@ -249,7 +249,8 @@ in {
   # Firewall
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
-    22  ];
+    22
+  ];
 
   # wg-quick
   # networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
