@@ -52,28 +52,28 @@ in
 
   # Displays
   services.xserver.enable = true;
-  services.autorandr = {
-    enable = true;
-    profiles = {
-      "vdesk" = {
-        fingerprint = b_fingerprints;
-        config = {
-          HDMI-0 = {
-            enable = true;
-            primary = false;
-            mode = "1920x1080";
-            position = "2560x0";
-          };
-          DP-2 = {
-            enable = true;
-            primary = true;
-            mode = "2560x1440";
-            position = "0x0";
-          };
-        };
-      };
-    };
-  };
+  # services.autorandr = {
+  #   enable = true;
+  #   profiles = {
+  #     "vdesk" = {
+  #       fingerprint = b_fingerprints;
+  #       config = {
+  #         HDMI-0 = {
+  #           enable = true;
+  #           primary = false;
+  #           mode = "1920x1080";
+  #           position = "2560x0";
+  #         };
+  #         DP-2 = {
+  #           enable = true;
+  #           primary = true;
+  #           mode = "2560x1440";
+  #           position = "0x0";
+  #         };
+  #       };
+  #     };
+  #   };
+  # };
 
   # Packages
   environment.systemPackages = with pkgs; [
