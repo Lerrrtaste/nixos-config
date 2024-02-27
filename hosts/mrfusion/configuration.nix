@@ -56,6 +56,7 @@
     pkgs.brightnessctl # brightnessctl s 50%
     pkgs.nvtop-amd
     pkgs.powertop
+    pkgs.android-tools
   ];
   # hardware.enableAllFirmware = true;
   # nixpkgs.config.allowUnfree = true;
@@ -72,6 +73,13 @@
     # USB_AUTOSUSPEND = 1;
     # DISK_IDLE_SECS_ON_BAT = 60;
   };
+
+  # Android
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
+
+  programs.adb.enable = true;
 
   # Graphics
   services.xserver.videoDrivers = [ "amdgpu" ];

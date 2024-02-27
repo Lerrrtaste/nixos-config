@@ -155,6 +155,7 @@ in {
       "scanner"
       "lp"
       "libvirtd"
+      "adbusers"
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
