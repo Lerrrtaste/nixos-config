@@ -94,6 +94,14 @@ in {
         ];
       });
     })
+    (self: super: {
+      dmenu = super.dmenu.overrideAttrs (oldAttrs: rec {
+        patches = [
+          ./patches/dmenu/dmenu-numbers-20220512-28fb3e2.diff
+          ./patches/dmenu/dmenu-highlight-20201211-fcdc159.diff
+        ];
+      });
+    })
   ];
 
   # Compositor
@@ -130,6 +138,7 @@ in {
 
   # Moonlander
   hardware.keyboard.zsa.enable = true;
+
   # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
