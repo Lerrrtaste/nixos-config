@@ -156,6 +156,7 @@ in {
       "lp"
       "libvirtd"
       "adbusers"
+      "video"
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
@@ -165,10 +166,10 @@ in {
   };
 
   # Gaming
-  # programs.steam = {
-  #   enable = true;
+  programs.steam = {
+    enable = true;
   #   remotePlay.openFirewall = true;
-  # };
+  };
   # hardware.steam-hardware.enable = true;
 
   # Packages installed in system profile
@@ -268,14 +269,15 @@ in {
   networking.firewall.allowedUDPPorts = [ ];
 
   # Secrets
-  # age.secrets.wg-quick-conf = {
-    # file = /etc/nixos/secrets/wg-quick-conf.age;
-    # name = "wg-quick-conf";
-    # path = "/etc/wireguard/wg0.conf";
-    # mode = "770";
-    # owner = "lerrrtaste";
-    # group = "root";
-  # };
+  ##age.secrets.wg-quick-conf = {
+  ##  file = /etc/nixos/secrets/wg-quick-conf.age;
+  ##  name = "wg-quick-conf";
+  ##  path = "/etc/wireguard/wg0.conf";
+  ##  mode = "770";
+  ##  owner = "lerrrtaste";
+  ##  group = "root";
+  ##  symlink = false;
+  ##};
 
   # Random things
 
