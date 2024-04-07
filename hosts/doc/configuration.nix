@@ -77,7 +77,7 @@ in
 
   # Packages
   environment.systemPackages = with pkgs; [
-    nvtop
+    # nvtop
     corectrl
     polychromatic
   ];
@@ -110,7 +110,6 @@ in
   # List services that you want to enable:
 
   # SSH
-  services.openssh.enable = true;
 
   # Firewall
   # networking.firewall.allowedTCPPorts = [ 24888 24070 ];

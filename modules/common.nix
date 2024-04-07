@@ -27,7 +27,7 @@ in {
   # Nix
   nix.settings.auto-optimise-store = true;
   nix.gc = {
-    automatic = true;
+    automatic = false;
     dates = "weekly";
     options = "--delete-older-than 32d";
   };
@@ -38,14 +38,13 @@ in {
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "canon-cups-ufr2"
-      "steam"
-      "steam-original"
-      "steam-runtime"
-      "steam-run"
+      # "steam"
+      # "steam-original"
+      # "steam-runtime"
+      # "steam-run"
 "nvidia-x11"
 "nvidia-settings"
 "nvidia-persistenced"
-"cudatoolkit"
     ];
 
   # Time zone
@@ -129,8 +128,8 @@ in {
   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
   hardware.sane.enable = true;
   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.enable = false;
+  services.avahi.nssmdns = false;
   # services.avahi.openFirewall = true; # for wifi printer
   nixpkgs.config.packageOverrides = pkgs: {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
@@ -150,13 +149,13 @@ in {
     home = "/home/lerrrtaste";
     extraGroups = [
       "docker"
+      "davfs2"
       "wheel"
       "networkmanager"
       "scanner"
       "lp"
       "libvirtd"
       "adbusers"
-      "video"
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
@@ -167,7 +166,7 @@ in {
 
   # Gaming
   programs.steam = {
-    enable = true;
+    enable = false;
   #   remotePlay.openFirewall = true;
   };
   # hardware.steam-hardware.enable = true;
@@ -218,7 +217,6 @@ in {
 
     # Deps
     xorg.xmessage # smartd notifications
-    libfido2
   ];
 
   # For nix-direnv (prevents gc, but its optional)
@@ -241,15 +239,15 @@ in {
 
   # OpenSSH
   services.openssh = {
-    enable = true;
+    # enable = false;
     settings = {
       X11Forwarding = false;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
     };
-    openFirewall = true;
+    openFirewall = false;
   };
-  programs.ssh.startAgent = true;
+  # programs.ssh.startAgent = true;
 
   # GPG
   programs.gnupg = {
@@ -259,9 +257,9 @@ in {
 
   # Firewall
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    22
-  ];
+  # networking.firewall.allowedTCPPorts = [
+  #   22
+  # ];
 
   # wg-quick
   # networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
