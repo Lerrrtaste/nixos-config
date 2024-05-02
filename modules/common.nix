@@ -4,6 +4,7 @@
 # Common configuration for all systems
 
 { config, lib, pkgs, options, ... }:
+
 let
   dwm_src = if builtins.pathExists
   ("/home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm") then
@@ -17,10 +18,10 @@ in {
     # TODO install home-manager as module (atm add channel and
     # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
     #
-    # "${
-    #   builtins.fetchTarball # TODO pin
-    #   "https://github.com/ryantm/agenix/archive/main.tar.gz"
-    # }/modules/age.nix"
+     "${
+       builtins.fetchTarball # TODO pin
+       "https://github.com/ryantm/agenix/archive/main.tar.gz"
+     }/modules/age.nix"
     ./cruzers.nix
   ];
 
@@ -38,10 +39,10 @@ in {
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "canon-cups-ufr2"
-      # "steam"
-      # "steam-original"
-      # "steam-runtime"
-      # "steam-run"
+      "steam"
+      "steam-original"
+      "steam-runtime"
+      "steam-run"
 "nvidia-x11"
 "nvidia-settings"
 "nvidia-persistenced"
@@ -166,10 +167,10 @@ in {
 
   # Gaming
   programs.steam = {
-    enable = false;
+    enable = true;
   #   remotePlay.openFirewall = true;
   };
-  # hardware.steam-hardware.enable = true;
+  hardware.steam-hardware.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -180,10 +181,10 @@ in {
     onlykey
     onlykey-agent # TODO find out how to use
     gpa
-    # (pkgs.callPackage "${
-    #     builtins.fetchTarball
-    #     "https://github.com/ryantm/agenix/archive/main.tar.gz"
-    #   }/pkgs/agenix.nix" { })
+    (pkgs.callPackage "${
+        builtins.fetchTarball
+        "https://github.com/ryantm/agenix/archive/main.tar.gz"
+      }/pkgs/agenix.nix" { })
 
     # Tools
     htop
@@ -261,19 +262,22 @@ in {
   networking.firewall.allowedUDPPorts = [ ];
 
   # wg-quick
-  # networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
+  networking.wg-quick.interfaces.wg0 = {
+    configFile = config.age.secrets.wg-quick-conf.path;
+    autostart = true;
+  };
 
 
   # Secrets
-  ##age.secrets.wg-quick-conf = {
-  ##  file = /etc/nixos/secrets/wg-quick-conf.age;
-  ##  name = "wg-quick-conf";
-  ##  path = "/etc/wireguard/wg0.conf";
-  ##  mode = "770";
-  ##  owner = "lerrrtaste";
-  ##  group = "root";
-  ##  symlink = false;
-  ##};
+  age.secrets.wg-quick-conf = {
+   file = /etc/nixos/secrets/wg-quick-conf.age;
+   name = "wg-quick-conf";
+   path = "/etc/wireguard/wg0.conf";
+   mode = "770";
+   owner = "lerrrtaste";
+   group = "root";
+   symlink = false;
+  };
 
   # Random things
 
