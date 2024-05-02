@@ -17,20 +17,20 @@ in {
     # TODO install home-manager as module (atm add channel and
     # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
     #
-    "${
-      builtins.fetchTarball
-      "https://github.com/ryantm/agenix/archive/main.tar.gz"
-    }/modules/age.nix"
+    # "${
+    #   builtins.fetchTarball # TODO pin
+    #   "https://github.com/ryantm/agenix/archive/main.tar.gz"
+    # }/modules/age.nix"
     ./cruzers.nix
   ];
 
   # Nix
   nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = false;
-    dates = "weekly";
-    options = "--delete-older-than 32d";
-  };
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   # options = "--delete-older-than 32d";
+  # };
   nix.extraOptions = ''
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
@@ -180,10 +180,10 @@ in {
     onlykey
     onlykey-agent # TODO find out how to use
     gpa
-    (pkgs.callPackage "${
-        builtins.fetchTarball
-        "https://github.com/ryantm/agenix/archive/main.tar.gz"
-      }/pkgs/agenix.nix" { })
+    # (pkgs.callPackage "${
+    #     builtins.fetchTarball
+    #     "https://github.com/ryantm/agenix/archive/main.tar.gz"
+    #   }/pkgs/agenix.nix" { })
 
     # Tools
     htop
@@ -199,8 +199,8 @@ in {
     wally-cli
 
     # Virtualization
-    docker-compose
-    virt-manager
+    # docker-compose
+    # virt-manager
 
     # Dekstop
     pinentry-curses
@@ -226,28 +226,28 @@ in {
   # '';
 
   # Virtualisation
-  virtualisation.docker.enable = true;
+  virtualisation.docker.enable = false;
   virtualisation.docker.rootless = {
-   enable = true;
+   enable = false;
    setSocketVariable = true;
   };
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
+  virtualisation.libvirtd.enable = false;
+  programs.dconf.enable = false;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
 
   # OpenSSH
   services.openssh = {
-    # enable = false;
+    enable = true;
     settings = {
       X11Forwarding = false;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
     };
-    openFirewall = false;
+    openFirewall = true;
   };
-  # programs.ssh.startAgent = true;
+  programs.ssh.startAgent = true;
 
   # GPG
   programs.gnupg = {
@@ -257,14 +257,12 @@ in {
 
   # Firewall
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [
-  #   22
-  # ];
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.allowedUDPPorts = [ ];
 
   # wg-quick
   # networking.wg-quick.interfaces.wg0.configFile = config.age.secrets.wg-quick-conf.path;
 
-  networking.firewall.allowedUDPPorts = [ ];
 
   # Secrets
   ##age.secrets.wg-quick-conf = {
