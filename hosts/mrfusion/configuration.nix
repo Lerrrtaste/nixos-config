@@ -57,10 +57,11 @@
     pkgs.nvtop-amd
     pkgs.powertop
     pkgs.android-tools
+    pkgs.chromium
   ];
   # hardware.enableAllFirmware = true;
   # nixpkgs.config.allowUnfree = true;
-  services.tlp.enable = true;
+  services.tlp.enable = false;
   services.tlp.settings = {
     # CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
     # CPU_MIN_PERF_ON_BAT = 0;
@@ -112,7 +113,7 @@
 
   # Bluetooth
   hardware.bluetooth = {
-    enable = true;
+    enable = false;
     settings =
     {
       General = {

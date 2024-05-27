@@ -258,8 +258,9 @@ in
   services.openssh.enable = true;
 
   # Firewall
-  networking.firewall.allowedTCPPorts = [ 24888 24070 ];
-  networking.firewall.allowedUDPPorts = [ 24888 ];
+  networking.firewall.enable = true;
+  # networking.firewall.allowedTCPPorts = [ 24888 24070 ];
+  # networking.firewall.allowedUDPPorts = [ 24888 ];
 
   # Jello
   # users.users.jello = {
