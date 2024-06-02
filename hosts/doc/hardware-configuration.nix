@@ -25,6 +25,38 @@
       fsType = "vfat";
     };
 
+  fileSystems."/media/ssd" =
+    { device = "/dev/disk/by-uuid/20549906-a63f-40db-ae3c-cd9f72eea2af";
+      fsType = "ext4";
+    };
+
+  # fileSystems."/media/storagebox/doc" =
+  #   {
+  #     fsType = "sshfs";
+  #     device = "@sb-sub3-user@@@sb-host@";
+  #     options = [ "password=@sb-sub3-pw@"
+  #                 "allow_other" # allow users
+  #                 "_netdev" # is network device
+  #                 "nofail" # do not fail boot
+  #                 "noauto" # do not mount at boot
+  #                 "x-systemd.automount" # automount on demand
+
+  #                 "reconnect" # reconnect on failure
+  #                 "ServerAliveInterval=15" # keep alive
+  #               ];
+  #   };
+  # system.activationScripts."storagebox-secrets" = ''
+  #   sbpw=$(cat "${config.age.secrets.sb-sub3-pw.path}")
+  #   sbuser=$(cat "${config.age.secrets.sb-sub3-user.path}")
+  #   sbhost=$(cat "${config.age.secrets.sb-host.path}")
+  #   ${pkgs.gnused}/bin/sed -i "s#@sb-sub3-pw@#$sbpw#" /etc/fstab
+  #   ${pkgs.gnused}/bin/sed -i "s#@sb-sub3-user@#$sbuser#" /etc/fstab
+  #   ${pkgs.gnused}/bin/sed -i "s#@sb-host@#$sbhost#" /etc/fstab
+  # '';
+  # age.secrets.sb-sub3-pw.file = /etc/nixos/secrets/sb-sub3-pw.age;
+  # age.secrets.sb-sub3-user.file = /etc/nixos/secrets/sb-sub3-user.age;
+  # age.secrets.sb-host.file = /etc/nixos/secrets/sb-host.age;
+
   ### SWAP ###
   swapDevices = [
     { 

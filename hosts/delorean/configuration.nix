@@ -259,8 +259,8 @@ in
 
   # Firewall
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ 24888 24070 ];
-  # networking.firewall.allowedUDPPorts = [ 24888 ];
+  # networking.firewall.allowedTCPPorts = [ ];
+  # networking.firewall.allowedUDPPorts = [ ];
 
   # Jello
   # users.users.jello = {

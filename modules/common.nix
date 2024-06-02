@@ -126,12 +126,13 @@ in {
 
   # CUPS
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+  services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
+  services.printing.browsing = true;
   hardware.sane.enable = true;
   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  services.avahi.enable = false;
-  services.avahi.nssmdns = false;
-  # services.avahi.openFirewall = true; # for wifi printer
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  services.avahi.openFirewall = true; # for wifi printer
   nixpkgs.config.packageOverrides = pkgs: {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
   };
@@ -197,7 +198,7 @@ in {
     ncpamixer # terminal pavucontrol
     vim
     nmap
-    wally-cli
+    # wally-cli
 
     # Virtualization
     # docker-compose
@@ -212,6 +213,10 @@ in {
     # herbe
     # gsettings-desktop-schemas
     # glib
+
+
+    # files
+    sshfs
 
     # QOL
     xcape
@@ -232,8 +237,9 @@ in {
    enable = false;
    setSocketVariable = true;
   };
-  virtualisation.libvirtd.enable = false;
-  programs.dconf.enable = false;
+  # virtualisation.libvirtd.enable = false;
+  # programs.dconf.enable = false;
+  # programs.virt-manager.enable = false;
 
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
@@ -246,7 +252,7 @@ in {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
     };
-    openFirewall = true;
+    openFirewall = false;
   };
   programs.ssh.startAgent = true;
 
@@ -267,7 +273,6 @@ in {
     autostart = true;
   };
 
-
   # Secrets
   age.secrets.wg-quick-conf = {
    file = /etc/nixos/secrets/wg-quick-conf.age;
@@ -278,6 +283,30 @@ in {
    group = "root";
    symlink = false;
   };
+
+  # age.secrets.spf-pass = {
+  #   file = /etc/nixos/secrets/spf-pass.age;
+  #   name = "spf-pass";
+  #   mode = "400";
+  #   owner = "lerrrtaste";
+  #   group = "users";
+  # };
+
+  # age.secrets.spf-id = {
+  #   file = /etc/nixos/secrets/spf-id.age;
+  #   name = "spf-id";
+  #   mode = "400";
+  #   owner = "lerrrtaste";
+  #   group = "users";
+  # };
+
+  # age.secrets.spf-secret = {
+  #   file = /etc/nixos/secrets/spf-secret.age;
+  #   name = "spf-secret";
+  #   mode = "400";
+  #   owner = "lerrrtaste";
+  #   group = "users";
+  # };
 
   # Random things
 

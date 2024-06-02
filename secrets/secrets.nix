@@ -4,8 +4,8 @@ let
     system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHuTQ/H7vBFLvZhUC2jUog9dKSNbUgZOGqCstjbbLBAp";
   };
   doc = {
-    system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTf5la/eGaMenXcEsCMjccJ75Nh1C+K73jMC3hmG+N9";
-    user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEATs+bgG/UqESkqRpgBS83V6/7Lsk73z9/GZkmsMzHA";
+    system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEATs+bgG/UqESkqRpgBS83V6/7Lsk73z9/GZkmsMzHA";
+    user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+SaeOJHqoqOVNAKcvPBP1s//OwdqKnhpwBBZprHqOA";
   };
 
   users = [ mrfusion.user doc.user ];
@@ -13,4 +13,12 @@ let
 in
 {
   "wg-quick-conf.age".publicKeys = systems ++ users;
+
+  "spf-pass.age".publicKeys = systems ++ users;
+  "spf-id.age".publicKeys = systems ++ users;
+  "spf-secret.age".publicKeys = systems ++ users;
+
+  "sb-sub3-user.age".publicKeys = systems ++ users;
+  "sb-sub3-pw.age".publicKeys = systems ++ users;
+  "sb-host.age".publicKeys = systems ++ users;
 }

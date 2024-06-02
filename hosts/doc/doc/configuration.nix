@@ -22,7 +22,7 @@ in
   networking.hostName = "doc";
 
   networking.networkmanager = {
-    enable = false;
+    enable = true;
     dhcp = "dhcpcd";
     wifi.backend = "wpa_supplicant";
   };
@@ -49,29 +49,6 @@ in
   hardware.openrazer.enable = true;
   hardware.openrazer.users = ["lerrrtaste"];
 
-  # Virtualisation
-  virtualisation.docker.enable = false;
-  virtualisation.docker.rootless = {
-   enable = false;
-   setSocketVariable = true;
-  };
-  virtualisation.libvirtd = {
-    enable = true;
-    onBoot = "ignore"; # or start
-    onShutdown = "shutdown"; # or suspend
-    qemu = {
-      swtpm.enable = true;
-      runAsRoot = true;
-      ovmf.enable = true;
-    };
-  };
-  programs.virt-manager.enable = true;
-  # programs.dconf.settings = {
-  #   "org/virt-manager/virt-manager/connections" = {
-  #     autoconnect = ["qemu:///system"];
-  #     uris = ["qemu:///system"];
-  #   };
-  # };
 
   # Displays
   services.xserver.enable = true;
@@ -100,7 +77,7 @@ in
 
   # Packages
   environment.systemPackages = with pkgs; [
-    # nvtop
+#    nvtop
     corectrl
     polychromatic
   ];
@@ -130,12 +107,13 @@ in
   #   enableSSHSupport = true;
   # };
 
+  # List services that you want to enable:
 
   # SSH
+  services.openssh.enable = true;
 
   # Firewall
-  networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ 8081 ]; # metro
+  # networking.firewall.allowedTCPPorts = [ ];
   # networking.firewall.allowedUDPPorts = [ ];
 
   users.motd = "Welcome to Doc!";
