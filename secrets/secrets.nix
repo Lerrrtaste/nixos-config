@@ -1,7 +1,7 @@
 let
   mrfusion = {
     user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBYLFR6Wy8//3A/qlM+aGpRx4/maUeJxpMeRreAyAHm";
-    system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHuTQ/H7vBFLvZhUC2jUog9dKSNbUgZOGqCstjbbLBAp";
+    system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINpdds88pyZNlu5wo6LmO+HmCpgCYmKL2OPMcEz7eydF";
   };
   doc = {
     system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEATs+bgG/UqESkqRpgBS83V6/7Lsk73z9/GZkmsMzHA";

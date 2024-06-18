@@ -278,10 +278,10 @@ in {
    file = /etc/nixos/secrets/wg-quick-conf.age;
    name = "wg-quick-conf";
    path = "/etc/wireguard/wg0.conf";
-   mode = "770";
-   owner = "lerrrtaste";
-   group = "root";
-   symlink = false;
+   mode = "600";
+   # owner = "lerrrtaste";
+   # group = "root";
+    # symlink = false;
   };
 
   # age.secrets.spf-pass = {
