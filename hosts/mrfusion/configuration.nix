@@ -75,6 +75,8 @@
     # DISK_IDLE_SECS_ON_BAT = 60;
   };
 
+  services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
+
   # Android
   services.udev.packages = [
     pkgs.android-udev-rules
