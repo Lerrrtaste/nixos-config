@@ -22,4 +22,22 @@
     fsType = "ext4";
     options = [ "nofail" "user" "defaults" ];
   };
+
+
+  fileSystems."/mnt/cruzer-key" = {
+    label = "cruzer4";
+    device = "/dev/mapper/cryptcruzer4";
+    fsType = "ext4";
+    options = [ "nofail" "user" "defaults" ];
+  };
+
+  age.secrets.cruzer-key = {
+    file = /etc/nixos/secrets/cruzer-key.age;
+    name = "cruzer-key";
+    mode = "770";
+    owner = "lerrrtaste";
+    group = "root";
+    symlink = false;
+  };
+
 }

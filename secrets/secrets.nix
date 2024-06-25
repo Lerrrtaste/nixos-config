@@ -21,4 +21,6 @@ in
   "sb-sub3-user.age".publicKeys = systems ++ users;
   "sb-sub3-pw.age".publicKeys = systems ++ users;
   "sb-host.age".publicKeys = systems ++ users;
+
+  "cruzer-key.age".publicKeys = systems ++ users;
 }
