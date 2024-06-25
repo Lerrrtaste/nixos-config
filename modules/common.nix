@@ -23,6 +23,7 @@ in {
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
     ./cruzers.nix
+    ./clamav.nix
   ];
 
   # Nix
@@ -47,28 +48,6 @@ in {
 "nvidia-settings"
 "nvidia-persistenced"
     ];
-
-
-  # AV
-  services.clamav = {
-    scanner.enable = true;
-
-    updater.enable = true;
-    updater.interval = "hourly";
-    updater.frequency = "3";
-
-    fangfrisch.enable = true;
-
-    daemon.enable = true;
-    daemon.settings = {
-      OnAccessMountPath = "/home/lerrrtaste/Downloads";
-      OnAccessPrevention = false;
-      OnAccessExtraScanning = true;
-      OnAccessExcludeUname =  "clamav";
-      VirusEvent = "/etc/clamav/virus-event.bash";
-      User = "clamav";
-    };
-  };
 
 
   # Time zone
