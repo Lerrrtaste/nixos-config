@@ -282,7 +282,7 @@ in {
   # GPG
   programs.gnupg = {
     agent.enable = true;
-    agent.pinentryFlavor = "curses";
+    agent.pinentryPackage = pkgs.pinentry-curses;
   };
 
   # Firewall
