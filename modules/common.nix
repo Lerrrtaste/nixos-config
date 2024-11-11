@@ -22,7 +22,7 @@ in {
        builtins.fetchTarball # TODO pin
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
-    ./cruzers.nix
+    #./cruzers.nix
     ./clamav.nix
   ];
 
@@ -47,6 +47,22 @@ in {
 "nvidia-x11"
 "nvidia-settings"
 "nvidia-persistenced"
+
+      # for nvtop:
+      "cuda-merged"
+      "cuda_cuobjdump"
+      "cuda_gdb"
+      "cuda_nvcc"
+      "cuda_nvdisasm"
+      "cuda_nvprune"
+      "cuda_cccl"
+      "cuda_cudart"
+      "cuda_cupti"
+      "cuda_cuxxfilt"
+      "cuda_nvml_dev"
+      "cuda_nvrtc"
+      "cuda_nvtx"
+      "cuda_profiler_api"
     ];
 
 
@@ -123,7 +139,7 @@ in {
   # Notifications
 
   # Keyboard
-  services.xserver.layout = "de";
+  services.xserver.xkb.layout = "de";
   # services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
@@ -133,7 +149,7 @@ in {
   hardware.sane.enable = true;
   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
   services.avahi.openFirewall = true; # for wifi printer
   nixpkgs.config.packageOverrides = pkgs: {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
@@ -181,7 +197,7 @@ in {
     st
     dmenu
     onlykey-cli
-    onlykey
+    # onlykey
     onlykey-agent # TODO find out how to use
     gpa
     (pkgs.callPackage "${
@@ -200,6 +216,8 @@ in {
     ncpamixer # terminal pavucontrol
     vim
     nmap
+    s-tui
+    stress
     # wally-cli
 
     # Virtualization

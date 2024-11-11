@@ -25,10 +25,10 @@
       fsType = "vfat";
     };
 
-  fileSystems."/media/ssd" =
-    { device = "/dev/disk/by-uuid/20549906-a63f-40db-ae3c-cd9f72eea2af";
-      fsType = "ext4";
-    };
+  #fileSystems."/media/ssd" =
+    #{ device = "/dev/disk/by-uuid/20549906-a63f-40db-ae3c-cd9f72eea2af";
+    #  fsType = "ext4";
+    #};
 
   # fileSystems."/media/storagebox/doc" =
   #   {
@@ -57,16 +57,17 @@
   # age.secrets.sb-sub3-user.file = /etc/nixos/secrets/sb-sub3-user.age;
   # age.secrets.sb-host.file = /etc/nixos/secrets/sb-host.age;
 
-  ### SWAP ###
-  swapDevices = [
-    { 
-      device = "/dev/disk/by-uuid/cde28588-1474-4b9e-a614-0586e589040f";
-    }
+ ### SWAP ###
+#  swapDevices = [
+#
+#    { 
+#      device = "/dev/disk/by-uuid/cde28588-1474-4b9e-a614-0586e589040f";
+#    }
 #    {
 #      device = "/swapfile";
 #      size = 4096;
 #    }
-  ];
+#  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

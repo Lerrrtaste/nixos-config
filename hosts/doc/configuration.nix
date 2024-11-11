@@ -4,14 +4,15 @@
 
 let
   b_fingerprints =  {
-    DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd003090d6d63b010a202020202020000000fc004c433332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a0295030203500ba892100001a6fc200a0a0a0555030203500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
-    HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a801871382d40582c4500132a2100001e000000fd00284b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e4e31000018295900a0a038274030203a001e4e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
+    DP = "";
+    HDMI = "";
   };
 in
 {                                                                   
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
+     ../../modules/cube.nix
   ];
 
   # EFI boot loader
@@ -22,7 +23,7 @@ in
   networking.hostName = "doc";
 
   networking.networkmanager = {
-    enable = false;
+    enable = true;
     dhcp = "dhcpcd";
     wifi.backend = "wpa_supplicant";
   };
@@ -54,7 +55,8 @@ in
   virtualisation.docker.rootless = {
    enable = false;
    setSocketVariable = true;
-  };
+  }
+;
   virtualisation.libvirtd = {
     enable = true;
     onBoot = "ignore"; # or start
@@ -75,34 +77,40 @@ in
 
   # Displays
   services.xserver.enable = true;
-  # services.autorandr = {
-  #   enable = true;
-  #   profiles = {
-  #     "vdesk" = {
-  #       fingerprint = b_fingerprints;
-  #       config = {
-  #         HDMI-0 = {
-  #           enable = true;
-  #           primary = false;
-  #           mode = "1920x1080";
-  #           position = "2560x0";
-  #         };
-  #         DP-2 = {
-  #           enable = true;
-  #           primary = true;
-  #           mode = "2560x1440";
-  #           position = "0x0";
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
+  services.autorandr = {
+    enable = true;
+    #profiles = {
+    #  "vdesk" = {
+    #    fingerprint = b_fingerprints;
+    #    config = {
+    #      HDMI = {
+    #        enable = true;
+    #        primary = false;
+    #        mode = "1920x1080";
+    #        position = "0x0";
+    #      };
+    #      DP = {
+    #        enable = true;
+    #        primary = true;
+    #        mode = "2560x1440";
+    #        position = "1920x0";
+    #      };
+    #    };
+    #  };
+    #};
+  };
 
   # Packages
   environment.systemPackages = with pkgs; [
-    # nvtop
+    # gpu stuff
+    # nvtopPackages.nvidia nvitop
+    gpustat
+    glmark2 # benchmark
+
     corectrl
     polychromatic
+
+    barrier
   ];
 
   # Bluetooth
@@ -135,9 +143,14 @@ in
 
   # Firewall
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ 8081 ]; # metro
-  # networking.firewall.allowedUDPPorts = [ ];
-
+  networking.firewall.allowedTCPPorts = [ 
+    24800 # barrier
+    22
+  ];
+  networking.firewall.allowedUDPPorts  = [
+    24800 # barrier
+    22
+  ];
   users.motd = "Welcome to Doc!";
 
   # Copy the NixOS configuration file and link it from the resulting system
