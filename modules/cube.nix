@@ -27,16 +27,34 @@
   # age.secrets.cb-user.file = /etc/nixos/secrets/cb-user.age;
   # age.secrets.cb-host.file = /etc/nixos/secrets/cb-host.age;
 
-  fileSystems."/media/cube" = {
-    device = "doc@CubeServer.local:/";
-    fsType = "fuse.sshfs";
+  # fileSystems."/media/cube" = {
+  #   device = "doc@CubeServer.local:/";
+  #   fsType = "fuse.sshfs";
+  #   options = [
+  #     "_netdev" # is network device
+  #     "noauto" # do not mount at boot
+  #     "allow_other" # allow users
+  #     "x-systemd.automount" # automount on demand
+  #     "ssh_command=ssh -p 2022"
+  #   ];
+  # };
+
+  fileSystems."/media/cubesmb/isos" = {
+    device = "//cubeserver1.local/isos";
+    fsType = "cifs";
     options = [
       "_netdev" # is network device
       "noauto" # do not mount at boot
-      "allow_other" # allow users
+      "nofail"
       "x-systemd.automount" # automount on demand
-      "ssh_command=ssh -p 2022"
+      "username=doc"
+      "password=@cb-pw@"
+      "domain=CUBEGROUP"
     ];
   };
-
+  system.activationScripts."cube-secrets" = lib.stringAfter [ "etc" "agenix" ] ''
+    cbpw=$(cat "${config.age.secrets.cb-pw.path}")
+    ${pkgs.gnused}/bin/sed -i "s#@cb-pw@#$cbpw#" /etc/fstab
+  '';
+  age.secrets.cb-pw.file = /etc/nixos/secrets/cb-pw.age;
 }

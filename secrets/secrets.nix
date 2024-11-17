@@ -23,4 +23,6 @@ in
   "sb-host.age".publicKeys = systems ++ users;
 
   "cruzer-key.age".publicKeys = systems ++ users;
+
+  "cb-pw.age".publicKeys = [doc.system doc.user];
 }
