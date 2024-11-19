@@ -176,6 +176,7 @@ in {
       "lp"
       "libvirtd"
       "adbusers"
+      "cubeuser"
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };

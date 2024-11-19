@@ -14,15 +14,14 @@ in
 {
   "wg-quick-conf.age".publicKeys = systems ++ users;
 
-  "spf-pass.age".publicKeys = systems ++ users;
-  "spf-id.age".publicKeys = systems ++ users;
-  "spf-secret.age".publicKeys = systems ++ users;
-
-  "sb-sub3-user.age".publicKeys = systems ++ users;
-  "sb-sub3-pw.age".publicKeys = systems ++ users;
-  "sb-host.age".publicKeys = systems ++ users;
+ # "spf-pass.age".publicKeys = systems ++ users;
+ # "spf-id.age".publicKeys = systems ++ users;
+ # "spf-secret.age".publicKeys = systems ++ users;
 
   "cruzer-key.age".publicKeys = systems ++ users;
 
+  "ts-auth-doc.age".publicKeys = [doc.system doc.user];
+
   "cb-pw.age".publicKeys = [doc.system doc.user];
+  "cb-creds-doc.age".publicKeys = [doc.system doc.user];
 }

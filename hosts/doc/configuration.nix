@@ -22,6 +22,8 @@ in
 
   # Network
   networking.hostName = "doc";
+  services.tailscale.enable = false;
+  services.tailscale.authKeyFile = config.age.secrets.ts-auth-doc.path;
 
   networking.networkmanager = {
     enable = true;
@@ -160,6 +162,18 @@ in
     22
   ];
   users.motd = "Welcome to Doc!";
+
+  # Secrets
+
+  age.secrets.ts-auth-doc = {
+   file = /etc/nixos/secrets/ts-auth-doc.age;
+   name = "ts-auth-doc";
+   # path = "/etc/wireguard/wg0.conf";
+   # mode = "600";
+   # owner = "lerrrtaste";
+   # group = "root";
+    # symlink = false;
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
