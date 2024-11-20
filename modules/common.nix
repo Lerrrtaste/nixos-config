@@ -168,6 +168,7 @@ in {
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
+    uid = 1000;
     extraGroups = [
       "docker"
       "davfs2"
