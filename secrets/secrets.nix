@@ -14,6 +14,11 @@ in
 {
   "wg-quick-conf.age".publicKeys = systems ++ users;
 
+  "p0-se-de-default.age".publicKeys = systems ++ users;
+  "p1-ch-de-doc.age".publicKeys = systems ++ users;
+  "p1-ch-de-mrfusion.age".publicKeys = systems ++ users;
+  "p2-de-pmp.age".publicKeys = systems ++ users;
+
  # "spf-pass.age".publicKeys = systems ++ users;
  # "spf-id.age".publicKeys = systems ++ users;
  # "spf-secret.age".publicKeys = systems ++ users;

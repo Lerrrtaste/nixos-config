@@ -24,6 +24,7 @@ in {
      }/modules/age.nix"
     #./cruzers.nix
     ./clamav.nix
+    ./wireguard.nix
   ];
 
   # Nix
@@ -285,49 +286,8 @@ in {
 
   # Firewall
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
-
-  # wg-quick
-  networking.wg-quick.interfaces.wg0 = {
-    configFile = config.age.secrets.wg-quick-conf.path;
-    autostart = true;
-  };
-
-  # Secrets
-  age.secrets.wg-quick-conf = {
-   file = /etc/nixos/secrets/wg-quick-conf.age;
-   name = "wg-quick-conf";
-   path = "/etc/wireguard/wg0.conf";
-   mode = "600";
-   # owner = "lerrrtaste";
-   # group = "root";
-    # symlink = false;
-  };
-
-  # age.secrets.spf-pass = {
-  #   file = /etc/nixos/secrets/spf-pass.age;
-  #   name = "spf-pass";
-  #   mode = "400";
-  #   owner = "lerrrtaste";
-  #   group = "users";
-  # };
-
-  # age.secrets.spf-id = {
-  #   file = /etc/nixos/secrets/spf-id.age;
-  #   name = "spf-id";
-  #   mode = "400";
-  #   owner = "lerrrtaste";
-  #   group = "users";
-  # };
-
-  # age.secrets.spf-secret = {
-  #   file = /etc/nixos/secrets/spf-secret.age;
-  #   name = "spf-secret";
-  #   mode = "400";
-  #   owner = "lerrrtaste";
-  #   group = "users";
-  # };
+  # networking.firewall.allowedTCPPorts = [ ];
+  # networking.firewall.allowedUDPPorts = [ ];
 
   # Random things
 
