@@ -14,3 +14,6 @@ let
 in
 builtins.trace ("Detected hardware: " + host)
 import config
+
+# Secure boot instructions
+# https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md

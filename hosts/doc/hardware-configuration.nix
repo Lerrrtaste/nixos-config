@@ -20,6 +20,9 @@
 
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/84b44021-237f-40ed-97aa-901305d5bd30";
 
+  # boot.bootspec.enabled = false; # for secure boot
+
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/F678-73E4";
       fsType = "vfat";

@@ -8,17 +8,32 @@ let
     DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
     HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
   };
+
+  # lanzaboote-src = pkgs.fetchFromGitHub {
+  #   owner = "nix-community";
+  #   repo = "lanzaboote";
+  #   rev = "v0.4.1"; # Replace with the version you want
+  #   sha256 = "0l82cq5xjbbh8grfvzz49qf3g2b1wrpnpfv1jdjyxwfj0n9a0n1j"; # Replace with the correct hash
+  # };
+
+  # lanzaboote = import lanzaboote-src;
 in
-{                                                                   
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/cube.nix
+    # ../../modules/secureboot.nix
+    # ../../modules/webcam.nix
   ];
 
   # EFI boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # boot.lanzaboote = { # required for secure boot (ran sbctl create-keys before)
+  #   enable = true;
+  #   pkiBundle = "/etc/secureboot";
+  # };
 
   # Network
   networking.hostName = "doc";
@@ -28,7 +43,7 @@ in
   networking.networkmanager = {
     enable = true;
     dhcp = "dhcpcd";
-    wifi.backend = "wpa_supplicant";
+    # wifi.backend = "wpa_supplicant";
   };
 
   # GPU
@@ -154,12 +169,19 @@ in
   # Firewall
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 
-    24800 # barrier
-    22
+    # 24800 # barrier
+    # 22
+    # 27040 # steam local dl
   ];
   networking.firewall.allowedUDPPorts  = [
-    24800 # barrier
-    22
+    # 24800 # barrier
+    # 22
+    # 27031 # steam local dl client discovery
+    # 27032
+    # 27033
+    # 27034
+    # 27035
+    # 27036 # client discovery end
   ];
   users.motd = "Welcome to Doc!";
 

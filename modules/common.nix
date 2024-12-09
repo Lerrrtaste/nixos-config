@@ -94,6 +94,11 @@ in {
   services.xserver.autorun = false;
   services.xserver.windowManager.dwm.enable = true;
   services.xserver.displayManager.startx.enable = true;
+    # services.autorandr.hooks { TODO
+  #   postswitch = {
+  #     "notify-send" wj w
+  #   }
+  # }
 
   # Fonts
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
@@ -222,6 +227,13 @@ in {
     s-tui
     stress
     # wally-cli
+    #
+    #
+
+    # android / Gos
+    # libarchive
+    #   # android-tools
+    #   android-udev-rules
 
     # Virtualization
     # docker-compose
