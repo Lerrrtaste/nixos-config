@@ -281,8 +281,11 @@ in {
   # programs.dconf.enable = false;
   # programs.virt-manager.enable = false;
 
+
+  # Security
   programs.slock.enable = true; # prevent slock from out of memory kill
   hardware.onlykey.enable = true;
+  services.udev.packages = [ pkgs.yubikey-personalization ];
 
   # OpenSSH
   services.openssh = {
