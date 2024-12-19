@@ -165,8 +165,11 @@ in {
   hardware.keyboard.zsa.enable = true;
 
   # Sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+  services.pipewire.enable = true;
+
+
 
   # Users
   users.mutableUsers = true;

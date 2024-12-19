@@ -56,8 +56,8 @@ in
 
   # GPU
   services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.driSupport = true;
+  # hardware.opengl.driSupport32Bit = true;
 
   ### Mdadm Raid Status Update Notifications ###
   systemd.services.mdadm = {
@@ -227,9 +227,9 @@ in
   };
 
   services.blueman.enable = true;
-  hardware.pulseaudio.extraConfig = ''
-    load-module module-switch-on-connect
-  '';
+  # hardware.pulseaudio.extraConfig = ''
+    # load-module module-switch-on-connect
+  # '';
   # Services
   # FIXME needs ssl cert (generate it here!)
   # TODO (dwm) shortcuts (. -> mrfusion , comma -> delorean screen)

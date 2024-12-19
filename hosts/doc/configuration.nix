@@ -48,11 +48,11 @@ in
 
   # GPU
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  # hardware.opengl = {
+  #   enable = true;
+  #   driSupport = true;
+  #   driSupport32Bit = true;
+  # };
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -151,9 +151,9 @@ in
   };
 
   services.blueman.enable = true;
-  hardware.pulseaudio.extraConfig = ''
-    load-module module-switch-on-connect
-  '';
+  # hardware.pulseaudio.extraConfig = ''
+  #   load-module module-switch-on-connect
+  # '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
