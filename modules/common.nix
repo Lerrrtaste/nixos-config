@@ -29,11 +29,11 @@ in {
 
   # Nix
   nix.settings.auto-optimise-store = true;
-  # nix.gc = {
-  #   automatic = true;
-  #   dates = "weekly";
-  #   # options = "--delete-older-than 32d";
-  # };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 90d";
+  };
   nix.extraOptions = ''
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
