@@ -209,13 +209,6 @@ in {
     st
     dmenu
 
-
-    # Security
-    onlykey-cli
-    onlykey-agent # TODO find out how to use
-    yubikey-manager-qt
-    yubikey-manager
-    yubico-pam
     gpa
     (pkgs.callPackage "${
         builtins.fetchTarball
