@@ -45,9 +45,10 @@ in {
       "steam-original"
       "steam-runtime"
       "steam-run"
-"nvidia-x11"
-"nvidia-settings"
-"nvidia-persistenced"
+      "nvidia-x11"
+      "nvidia-settings"
+      "nvidia-persistenced"
+      "steam-unwrapped"
 
       # for nvtop:
       "cuda-merged"
