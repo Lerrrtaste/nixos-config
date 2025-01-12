@@ -13,9 +13,6 @@
   boot.kernelModules = [ "kvm-amd" ];
 
 # for webcam https://nixos.wiki/wiki/OBS_Studio
-  boot.extraModulePackages = [ v4l2loopback ]  boot.extraModulePackages = with config.boot.kernelPackages; [
-    v4l2loopback
-  ];
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];
@@ -23,9 +20,8 @@
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
   security.polkit.enable = true;
-}
 
- #Filesystem
+  #Filesystem
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f9f2ef72-11cc-4cc0-a6d9-78c519460c5e";
       fsType = "ext4";
@@ -33,7 +29,7 @@
 
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/84b44021-237f-40ed-97aa-901305d5bd30";
 
-  boot.bootspec.enabled = false; # for secure boot
+  # boot.bootspec.enabled = false; # for secure boot
 
 
   fileSystems."/boot" =
