@@ -23,6 +23,7 @@ in
     ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/cube.nix
+    ../../modules/ultras.nix
     # ../../modules/secureboot.nix
     # ../../modules/webcam.nix
   ];
@@ -76,7 +77,7 @@ in
   }
 ;
   virtualisation.libvirtd = {
-    enable = true;
+    enable = false;
     onBoot = "ignore"; # or start
     onShutdown = "shutdown"; # or suspend
     qemu = {
@@ -85,7 +86,7 @@ in
       ovmf.enable = true;
     };
   };
-  programs.virt-manager.enable = true;
+  programs.virt-manager.enable = false;
   # programs.dconf.settings = {
   #   "org/virt-manager/virt-manager/connections" = {
   #     autoconnect = ["qemu:///system"];
