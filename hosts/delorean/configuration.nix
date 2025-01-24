@@ -95,65 +95,66 @@ in
     # ];
   };
 
-  services.autorandr = {
-    enable = true;
-    profiles = {
-      "vdesk" = {
-        fingerprint = default_fingerprints;
-        config = {
-          HDMI-A-0 = {
-            enable = true;
-            primary = false;
-            mode = "2560x1080";
-            position = "2560x0";
-            rotate = "right";
-            rate = "75";
-          };
-          DisplayPort-1 = {
-            enable = true;
-            primary = true;
-            mode = "2560x1440";
-            position = "0x500";
-          };
-          DisplayPort-2 = {
-            enable = false;
-          };
-        };
-      };
+  # services.autorandr = {
+  #   enable = true;
+    # profiles = {
+    #   "vdesk" = {
+    #     fingerprint = default_fingerprints;
+    #     config = {
+    #       HDMI-A-0 = {
+    #         enable = true;
+    #         primary = false;
+    #         mode = "2560x1080";
+    #         position = "2560x0";
+    #         rotate = "right";
+    #         rate = "75";
+    #       };
+    #       DisplayPort-1 = {
+    #         enable = true;
+    #         primary = true;
+    #         mode = "2560x1440";
+    #         position = "0x500";
+    #       };
+    #       DisplayPort-2 = {
+    #         enable = false;
+    #       };
+    #     };
+    #   };
 
-      "tv" = {
-        fingerprint = default_fingerprints;
-        config = {
-          HDMI-A-0 = {
-            enable = false;
-          };
-          DisplayPort-1 = {
-            enable = false;
-          };
-          DisplayPort-2 = {
-            enable = true;
-            primary = true;
-            mode = "1920x1080";
-          };
-        };
-      };
+    #   "tv" = {
+    #     fingerprint = default_fingerprints;
+    #     config = {
+    #       HDMI-A-0 = {
+    #         enable = false;
+    #       };
+    #       DisplayPort-1 = {
+    #         enable = false;
+    #       };
+    #       DisplayPort-2 = {
+    #         enable = true;
+    #         primary = true;
+    #         mode = "1920x1080";
+    #       };
+    #     };
+    #   };
 
-      "deck" = {
-        fingerprint = default_fingerprints;
-        config = {
-          HDMI-A-0 = {
-            enable = false;
-          };
-          DisplayPort-1 = {
-            enable = false;
-          };
-          DisplayPort-2 = {
-            enable = true;
-            primary = true;
-            mode = "1280x800";
-          };
-        };
-      };
+    #   "deck" = {
+    #     fingerprint = default_fingerprints;
+    #     config = {
+    #       HDMI-A-0 = {
+    #         enable = false;
+    #       };
+    #       DisplayPort-1 = {
+    #         enable = false;
+    #       };
+    #       DisplayPort-2 = {
+    #         enable = true;
+    #         primary = true;
+    #         mode = "1280x800";
+    #       };
+    #     };
+    #   };
+    # };
 
 
     #   "hdesk" = {
@@ -196,8 +197,8 @@ in
     #       };
     #     };
     #   };
-    };
-  };
+  #   };
+  # };
 
   # Packages
   environment.systemPackages = with pkgs; [
