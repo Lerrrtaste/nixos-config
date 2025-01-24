@@ -4,9 +4,10 @@
 
 let
   b_fingerprints =  {
-    DP-1 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
+    # DP-1 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
+    HDMI-0 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
     DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
-    HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
+    # HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
   };
 
   # lanzaboote-src = pkgs.fetchFromGitHub {
@@ -22,8 +23,9 @@ in
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
-    ../../modules/cube.nix
-    ../../modules/ultras.nix
+    # ../../modules/cube.nix
+    # ../../modules/sync.nix
+    # ../../modules/ultras.nix
     # ../../modules/secureboot.nix
     # ../../modules/webcam.nix
   ];
@@ -38,14 +40,85 @@ in
 
   # Network
   networking.hostName = "doc";
-  services.tailscale.enable = false;
-  services.tailscale.authKeyFile = config.age.secrets.ts-auth-doc.path;
+  # services.tailscale.enable = true;
+  # services.tailscale.authKeyFile = config.age.secrets.ts-auth-doc.path;
 
   networking.networkmanager = {
     enable = true;
     dhcp = "dhcpcd";
     # wifi.backend = "wpa_supplicant";
   };
+
+  # networking.interfaces = {
+  #   enp
+  #   name = "USB Tethering";
+  #   type = "ethernet";
+  #   interface-name = "enp13s0u4"; # Replace with your USB interface name
+  #   ipv4.route-metric = 100; # Lower metric for higher priority
+  # }
+  # {
+  #   name = "LAN Connection";
+  #   type = "ethernet";
+  #   interface-name = "enp12s0"; # Replace with your LAN interface name
+  #   ipv4.route-metric = 200; # Higher metric for lower priority
+  #   # OPTIONAL - diable lan gateway
+  #   # TODO fallback if lan is the only available connection to route all traffic????
+  #   ipv4.gateway = "none"; # Prevents the LAN connection from becoming the default route
+  #   ipv4.addresses = [
+  #     {
+  #       address = "192.168.2.128"; # Replace with your LAN IP
+  #       prefixLength = 24; # Adjust based on your subnet
+  #     }
+  #   ];
+  #   }
+  # ];
+
+
+
+ # networking.bonds = {
+ #      "bond1" = {
+ #        interfaces = [ "enp13s0u2u1" "enp13s0u4" ];
+ #        driverOptions = {
+ #          miimon = "250";
+ #          mode = "balance-rr";
+ #        };
+ #      };
+ #    };
+ # systemd.network = {
+ #    netdevs = {
+ #      "10-bond0" = {
+ #        netdevConfig = {
+ #          Kind = "bond";
+ #          Name = "bond0";
+ #        };
+ #        bondConfig = {
+ #          Mode = "802.3ad";
+ #          TransmitHashPolicy = "layer3+4";
+ #        };
+ #      };
+ #    };
+ #    networks = {
+ #      "10-enp12s0" = {
+ #        matchConfig.Name = "enp12s0";
+ #        networkConfig.Bond = "bond0";
+ #      };
+ #      "20-enp13s0u2u1" = {
+ #        matchConfig.Name = "enp13s0u2u1";
+ #        networkConfig.Bond = "bond0";
+ #      };
+ #      "20-enp13s0u4" = {
+ #        matchConfig.Name = "enp13s0u4";
+ #        networkConfig.Bond = "bond0";
+ #      };
+ #      "31-bond0" = {
+ #        matchConfig.Name = "bond0";
+ #        linkConfig = {
+ #          RequiredForOnline = "carrier";
+ #        };
+ #        networkConfig.LinkLocalAddressing = "no";
+ #      };
+ #    };
+ #  };
 
   # GPU
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -64,6 +137,14 @@ in
     # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
   };
+
+  # LLMs
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "cuda";
+  # # Optional: load models on startup
+  # # loadModels = [ ... ];
+  # };
 
   # Mouse
   hardware.openrazer.enable = true;
@@ -151,6 +232,10 @@ in
     };
   };
 
+  # services.duplicati = {
+  #   enable = true;
+  # };
+
   services.blueman.enable = true;
   # hardware.pulseaudio.extraConfig = ''
   #   load-module module-switch-on-connect
@@ -169,6 +254,7 @@ in
 
   # Firewall
   networking.firewall.enable = true;
+  services.syncthing.openDefaultPorts = true;
   networking.firewall.allowedTCPPorts = [ 
     # 24800 # barrier
     # 22
