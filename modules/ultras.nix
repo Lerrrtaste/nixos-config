@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.udisks2.enable = true; #automount?
+  # services.udisks2.enable = true; #automount?
+  #
 
   # HDDs
   fileSystems."/media/hd1" = {
@@ -9,7 +10,7 @@
     # device = "/dev/disks/by-label/hd1";
     device = "/dev/disks/by-uuid/6EF7-2F74";
     fsType = "exfat";
-    options = [ "noauto" "nofail" "x-systemd.automount" "user" "defaults" "rw" "file_mode=0660" "dir_mode=0770" "gid=${toString config.users.groups.users.gid}"];
+    options = [ "noauto" "nofail" "user" "defaults" "rw" "uid=1000" ];
   };
 
   # ultra usb sticks

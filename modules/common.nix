@@ -23,7 +23,7 @@ in {
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
     #./cruzers.nix
-    ./clamav.nix
+    # ./clamav.nix
     ./wireguard.nix
   ];
 
@@ -51,20 +51,20 @@ in {
       "steam-unwrapped"
 
       # for nvtop:
-      "cuda-merged"
-      "cuda_cuobjdump"
-      "cuda_gdb"
-      "cuda_nvcc"
-      "cuda_nvdisasm"
-      "cuda_nvprune"
-      "cuda_cccl"
-      "cuda_cudart"
-      "cuda_cupti"
-      "cuda_cuxxfilt"
-      "cuda_nvml_dev"
-      "cuda_nvrtc"
-      "cuda_nvtx"
-      "cuda_profiler_api"
+      # "cuda-merged"
+      # "cuda_cuobjdump"
+      # "cuda_gdb"
+      # "cuda_nvcc"
+      # "cuda_nvdisasm"
+      # "cuda_nvprune"
+      # "cuda_cccl"
+      # "cuda_cudart"
+      # "cuda_cupti"
+      # "cuda_cuxxfilt"
+      # "cuda_nvml_dev"
+      # "cuda_nvrtc"
+      # "cuda_nvtx"
+      # "cuda_profiler_api"
     ];
 
 
@@ -120,7 +120,7 @@ in {
       });
     })
     (self: super: {
-      dmenu = super.dmenu.overrideAttrs (oldAttrs: rec {
+     dmenu = super.dmenu.overrideAttrs (oldAttrs: rec {
         patches = [
           ./patches/dmenu/dmenu-numbers-20220512-28fb3e2.diff
           ./patches/dmenu/dmenu-highlight-20201211-fcdc159.diff
@@ -135,11 +135,12 @@ in {
     fade = true;
     shadow = true;
     settings = {
-      blur = { # FIXME doesnt work
-        method = "gaussian";
-        size = 10;
-        deviation = 10;
-      };
+      backend= "glx";
+      # blur = { # FIXME doesnt work
+      #   method = "gaussian";
+      #   size = 10;
+      #   deviation = 10;
+      # };
     };
   };
 
@@ -170,8 +171,6 @@ in {
   # hardware.pulseaudio.enable = true;
   services.pipewire.enable = true;
 
-
-
   # Users
   users.mutableUsers = true;
   users.users.lerrrtaste = {
@@ -188,6 +187,8 @@ in {
       "libvirtd"
       "adbusers"
       "cubeuser"
+      "pcscd" # for yubikey sc
+      "plugdev" # alt owner for scs
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
@@ -201,7 +202,7 @@ in {
     enable = true;
   #   remotePlay.openFirewall = true;
   };
-  hardware.steam-hardware.enable = true;
+  # hardware.steam-hardware.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -219,6 +220,7 @@ in {
     htop
     iotop
     wget
+    iftop
     ncdu
     git
     nethogs
@@ -251,7 +253,6 @@ in {
     # gsettings-desktop-schemas
     # glib
 
-
     # files
     sshfs
 
@@ -260,6 +261,22 @@ in {
 
     # Deps
     xorg.xmessage # smartd notifications
+
+    # yk copypasta deps
+    wget
+
+    # yubioath-flutter
+    # # yubikey-manager-qt # broken
+    # # yubikey-touch-detector
+    # yubikey-personalization-gui
+    # yubikey-manager
+    # # pam_u2f
+    # yubikey-personalization
+    # libu2f-host
+    # # yubico-pam
+    # # libu2f-udev
+    #  gnupg                     # Encryption key management
+
   ];
 
   # For nix-direnv (prevents gc, but its optional)
@@ -312,14 +329,15 @@ in {
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  system.copySystemConfiguration = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
-  #   enableSSHSupport = true;
+  #   pinentryPackage = pkgs.pinentry-curses;
+  #   # enableSSHSupport = true;
   # };
 
   # This value determines the NixOS release from which the default

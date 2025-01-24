@@ -59,31 +59,36 @@ in
     ];
   };
 
-  fileSystems."/media/cube/smb/isos" = {
-    device = "//cubeserver1.local/isos";
-    fsType = "cifs";
-    options = options;
-  };
-  fileSystems."/media/cube/smb/games" = {
-    device = "//cubeserver1.local/games";
-    fsType = "cifs";
-    options = options;
-  };
-  fileSystems."/media/cube/smb/media" = {
-    device = "//cubeserver1.local/media";
-    fsType = "cifs";
-    options = options;
-  };
-  fileSystems."/media/cube/smb/inbox" = {
-    device = "//cubeserver1.local/inbox";
-    fsType = "cifs";
-    options = options;
-  };
-  fileSystems."/media/cube/smb/cubedrive" = {
-    device = "//cubeserver1.local/cubedrive";
-    fsType = "cifs";
-    options = options;
-  };
+  # fileSystems."/media/cube/smb/isos" = {
+  #   device = "//cubeserver1.local/isos";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
+  # fileSystems."/media/cube/smb/games" = {
+  #   device = "//cubeserver1.local/games";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
+  # fileSystems."/media/cube/smb/media" = {
+  #   device = "//cubeserver1.local/media";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
+  # fileSystems."/media/cube/smb/inbox" = {
+  #   device = "//cubeserver1.local/inbox";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
+  # fileSystems."/media/cube/smb/cubedrive" = {
+  #   device = "//cubeserver1.local/cubedrive";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
+  # fileSystems."/media/cube/smb/annex" = {
+  #   device = "//cubeserver1.local/cubedrive";
+  #   fsType = "cifs";
+  #   options = options;
+  # };
   # system.activationScripts."cube-secrets" = lib.stringAfter [ "etc" "agenix" ] ''
   #   cbpw=$(cat "${config.age.secrets.cb-pw.path}")
   #   ${pkgs.gnused}/bin/sed -i "s#@cb-pw@#$cbpw#" /etc/fstab

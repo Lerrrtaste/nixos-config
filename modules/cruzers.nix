@@ -31,13 +31,13 @@
     options = [ "nofail" "user" "defaults" ];
   };
 
-  age.secrets.cruzer-key = {
-    file = /etc/nixos/secrets/cruzer-key.age;
-    name = "cruzer-key";
-    mode = "770";
-    owner = "lerrrtaste";
-    group = "root";
-    symlink = false;
-  };
+  # age.secrets.cruzer-key = {
+  #   file = /etc/nixos/secrets/cruzer-key.age;
+  #   name = "cruzer-key";
+  #   mode = "770";
+  #   owner = "lerrrtaste";
+  #   group = "root";
+  #   symlink = false;
+  # };
 
 }
