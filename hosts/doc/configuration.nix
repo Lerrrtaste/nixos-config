@@ -5,8 +5,8 @@
 let
   b_fingerprints =  {
     # DP-1 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
-    HDMI-0 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
-    DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
+    # HDMI-0 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
+    # DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
     # HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
   };
 
@@ -23,9 +23,9 @@ in
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
+    # ../../modules/st.nix
     # ../../modules/cube.nix
-    # ../../modules/sync.nix
-    # ../../modules/ultras.nix
+    ../../modules/ultras.nix
     # ../../modules/secureboot.nix
     # ../../modules/webcam.nix
   ];
@@ -73,6 +73,10 @@ in
   #   }
   # ];
 
+
+  # For Future evaluation
+  services.taskserver.enable = true;
+# services.taskserver.config
 
 
  # networking.bonds = {
@@ -122,11 +126,11 @@ in
 
   # GPU
   services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
+  hardware.opengl = {
+    enable = true;
+    # driSupport = true;
+    # driSupport32Bit = true;
+  };
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -136,8 +140,21 @@ in
     nvidiaSettings = true;
     # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+  # Enable Prime for parallel integrated igpu and gpu usage
+  # hardware.nvidia.prime = {
+  #   nvidiaBusId = "PCI:1:0:0";
+  #   amdgpuBusId = "PCI:15:0:0";
+    #amdgpuBusId = "PCI:54:0:0"; # If you have an AMD iGPU
+    #
 
+    # sync.enable = true;
+   #  Sync mode
+   #  Note: Sync mode is available since NixOS 19.03 and NVIDIA driver version 390.67, and is incompatible with both offload and reverse sync modes. Sync mode also requires using a desktop manager that respects the services.xserver.displayManager.setupCommands option, including LightDM, GDM and SDDM.
+
+    # offload.enable = true;
+  # };
   # LLMs
   # services.ollama = {
   #   enable = true;
@@ -178,34 +195,36 @@ in
   # Displays
   services.xserver.enable = true;
   services.autorandr = {
+    # DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
+    # HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
     enable = true;
-    profiles = {
-     "bibs" = {
-       fingerprint = b_fingerprints;
-       config = {
-         HDMI-0 = {
-           enable = true;
-           mode = "2560x1080";
-           position = "4480x0";
-         };
-         DP-0 = {
-           enable = false;
-         };
-         DP-1 = {
-           enable = true;
-           mode = "1920x1080";
-           position = "2560x0";
-         };
-         DP-2 = {
-           enable = true;
-           primary = true;
-           mode = "2560x1440";
-           position = "0x0";
-         };
-       };
-     };
-    };
   };
+    # profiles = {
+    #  "bibs" = {
+    #    fingerprint = b_fingerprints;
+    #    config = {
+    #      HDMI-0 = {
+    #        enable = true;
+    #        mode = "2560x1080";
+    #        position = "4480x0";
+    #      };
+    #      DP-0 = {
+    #        enable = false;
+    #      };
+    #      DP-1 = {
+    #        enable = true;
+    #        mode = "1920x1080";
+    #        position = "2560x0";
+    #      };
+    #      DP-2 = {
+    #        enable = true;
+    #        primary = true;
+    #        mode = "2560x1440";
+    #        position = "0x0";
+    #      };
+    #    };
+     # };
+    # };
 
   # Packages
   environment.systemPackages = with pkgs; [
@@ -213,11 +232,13 @@ in
     # nvtopPackages.nvidia nvitop
     gpustat
     glmark2 # benchmark
+    mesa-demos
 
     corectrl
     polychromatic
 
     barrier
+    glances
   ];
 
   # Bluetooth
@@ -232,6 +253,14 @@ in
     };
   };
 
+  services.glances ={
+    enable = true;
+    extraArgs = ["-C" "/etc/glances.json" "-w" ];
+    openFirewall = true;
+  };
+  environment.etc."glances.json".source = /etc/nixos/hosts/doc/glances.json;
+  environment.etc."glances.json".mode = "0644";
+  # environment.etc.glances.enable = true;
   # services.duplicati = {
   #   enable = true;
   # };
