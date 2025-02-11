@@ -22,7 +22,8 @@ in {
        builtins.fetchTarball # TODO pin
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
-    #./cruzers.nix
+    ./cruzers.nix
+    ./ultras.nix
     # ./clamav.nix
     ./wireguard.nix
   ];
@@ -131,17 +132,17 @@ in {
 
   # Compositor
   services.picom = {
-    enable = true;
-    fade = true;
-    shadow = true;
-    settings = {
-      backend= "glx";
-      # blur = { # FIXME doesnt work
-      #   method = "gaussian";
-      #   size = 10;
-      #   deviation = 10;
-      # };
-    };
+    enable = false;
+    # fade = true;
+    # shadow = true;
+    # settings = {
+    #   backend= "glx";
+    #   # blur = { # FIXME doesnt work
+    #   #   method = "gaussian";
+    #   #   size = 10;
+    #   #   deviation = 10;
+    #   # };
+    # };
   };
 
   # Notifications
@@ -158,7 +159,7 @@ in {
   hardware.sane.extraBackends = [ pkgs.sane-airscan ];
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
-  services.avahi.openFirewall = true; # for wifi printer
+  # services.avahi.openFirewall = true; # for wifi printer
   nixpkgs.config.packageOverrides = pkgs: {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
   };
@@ -192,11 +193,17 @@ in {
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
+  # users.syncthing = {
+  #   isNormalUser = false;
+  #   isSystemUser = true;
+  #   group = "cubeuser";
+  # };
 
   users.users.root = {
     hashedPassword = "!"; # Disable password-based login for root.
   };
 
+  users.groups.cubeuser = {};
   # Gaming
   programs.steam = {
     enable = true;
@@ -219,6 +226,7 @@ in {
     # Tools
     htop
     iotop
+    glances
     wget
     iftop
     ncdu
@@ -230,6 +238,8 @@ in {
     nmap
     s-tui
     stress
+    onlykey
+    onlykey-cli
     # wally-cli
     #
     #
