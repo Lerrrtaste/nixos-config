@@ -59,7 +59,7 @@ in
     ];
   };
 
-  # fileSystems."/media/cube/smb/isos" = {
+  # (backup share+b2 w/ appdatashares)fileSystems."/media/cube/smb/isos" = {
   #   device = "//cubeserver1.local/isos";
   #   fsType = "cifs";
   #   options = options;
