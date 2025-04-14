@@ -18,14 +18,14 @@ in {
     # TODO install home-manager as module (atm add channel and
     # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
     #
+    # <home-manager/nixos>
      "${
        builtins.fetchTarball # TODO pin
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
-    ./cruzers.nix
-    ./ultras.nix
+    #./cruzers.nix
     # ./clamav.nix
-    ./wireguard.nix
+   ./wireguard.nix
   ];
 
   # Nix
@@ -39,34 +39,19 @@ in {
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
   ''; # run gc when free space is less than 500MB and keep at least 2GB free
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "canon-cups-ufr2"
-      "steam"
-      "steam-original"
-      "steam-runtime"
-      "steam-run"
-      "nvidia-x11"
-      "nvidia-settings"
-      "nvidia-persistenced"
-      "steam-unwrapped"
+ # nixpkgs.config.allowUnfreePredicate = pkg:
+ #   builtins.elem (lib.getName pkg) [
+ #     "canon-cups-ufr2"
+ #     "steam"
+ #     "steam-original"
+ #     "steam-runtime"
+ #     "steam-run"
+ #     "nvidia-x11"
+ #     "nvidia-settings"
+ #     "nvidia-persistenced"
+ #     "steam-unwrapped"
 
-      # for nvtop:
-      # "cuda-merged"
-      # "cuda_cuobjdump"
-      # "cuda_gdb"
-      # "cuda_nvcc"
-      # "cuda_nvdisasm"
-      # "cuda_nvprune"
-      # "cuda_cccl"
-      # "cuda_cudart"
-      # "cuda_cupti"
-      # "cuda_cuxxfilt"
-      # "cuda_nvml_dev"
-      # "cuda_nvrtc"
-      # "cuda_nvtx"
-      # "cuda_profiler_api"
-    ];
+#   ];
 
 
   # Time zone
@@ -152,20 +137,20 @@ in {
   # services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
-  services.printing.browsing = true;
-  hardware.sane.enable = true;
-  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  services.avahi.enable = true;
-  services.avahi.nssmdns4 = true;
-  # services.avahi.openFirewall = true; # for wifi printer
-  nixpkgs.config.packageOverrides = pkgs: {
-    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-  };
+  #services.printing.enable = true;
+  #services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
+  #services.printing.browsing = true;
+  #hardware.sane.enable = true;
+  #hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  #services.avahi.enable = true;
+  #services.avahi.nssmdns4 = true;
+  ## services.avahi.openFirewall = true; # for wifi printer
+  #nixpkgs.config.packageOverrides = pkgs: {
+  #  xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  #};
 
   # Moonlander
-  hardware.keyboard.zsa.enable = true;
+  # hardware.keyboard.zsa.enable = true;
 
   # Sound
   # sound.enable = true;
@@ -173,23 +158,28 @@ in {
   services.pipewire.enable = true;
 
   # Users
-  users.mutableUsers = true;
+  users.mutableUsers = false;
+  # home-manager.users.lerrrtaste = { pkgs, ...}: {
+  #   home.stateVersion = "24.11";
+  #   programs.home-manager.enable = true;
+  #   home.packages = [ pkgs.hello ];
+  # };
   users.users.lerrrtaste = {
     isNormalUser = true;
     home = "/home/lerrrtaste";
     uid = 1000;
     extraGroups = [
-      "docker"
-      "davfs2"
+      #"docker"
+      #"davfs2"
       "wheel"
       "networkmanager"
-      "scanner"
-      "lp"
-      "libvirtd"
-      "adbusers"
-      "cubeuser"
+      #"scanner"
+      #"lp"
+      ##"libvirtd"
+      #"adbusers"
+      #"cubeuser"
       "pcscd" # for yubikey sc
-      "plugdev" # alt owner for scs
+      #"plugdev" # alt owner for scs
     ]; # note dont add to docker!
     initialPassword = "changeme";
   };
@@ -203,10 +193,9 @@ in {
     hashedPassword = "!"; # Disable password-based login for root.
   };
 
-  users.groups.cubeuser = {};
   # Gaming
   programs.steam = {
-    enable = true;
+    enable = false;
   #   remotePlay.openFirewall = true;
   };
   # hardware.steam-hardware.enable = true;

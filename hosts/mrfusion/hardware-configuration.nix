@@ -8,29 +8,41 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/c9a7f542-7277-4709-a929-e1c7ffde565f";
-      fsType = "ext4";
-    };
-
+  # /dev/nvme0n1p1: LABEL_FATBOOT="NIXBOOT" LABEL="NIXBOOT" UUID="C387-A740" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="f62b3c09-086a-4cd9-b88b-54c4d702e341"
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B4A2-1115";
+    { device = "/dev/disk/by-uuid/C387-A740";
       fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+   };
+
+
+  # NIXROOT
+  # crypt
+  # /dev/nvme0n1p2: UUID="cf8265f7-cd76-4b3d-a7db-bb9c13a478e8" TYPE="crypto_LUKS" PARTUUID="791ebdd2-7b1b-4f3a-9b52-8ee93e3f7518"
+  boot.initrd.luks.devices."nixcrypt" = {
+    device = "/dev/disk/by-uuid/cf8265f7-cd76-4b3d-a7db-bb9c13a478e8";
+    preLVM = true;
+    allowDiscards = true;
+  };
+  # /dev/mapper/nixcrypt: LABEL="NIXROOT" UUID="5d7c9edb-22ef-455e-9f1e-96624690d16c" BLOCK_SIZE="4096" TYPE="ext4"
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/5d7c9edb-22ef-455e-9f1e-96624690d16c";
+      fsType = "ext4";
+      options = [ "noatime" "nodiratime" "discard" ];  # better for ssds (?)
     };
 
-  # environment.etc."crypttab".text = ''
-  #   cryptcruzer1 /dev/796cbd8a-b6e5-4c20-b6a5-04a471d3a64d /root/keyfile_cruzers
-  #   cryptcruzer2 /dev/25d63b4d-4a03-4160-896d-b7be71e257e8 /root/keyfile_cruzers
-  #   cryptcruzer3 /dev/bf241007-9646-400a-867a-7b4fa1748e6f /root/keyfile_cruzers
-  # '';
 
+
+
+  # /dev/nvme0n1p3: UUID="9fc5af69-b95f-4e2b-b910-b3e3ab212bc2" TYPE="swap" PARTUUID="af337f05-da86-43eb-9bf1-073bef14d3ea"
+  # /dev/nvme0n1p3: UUID="9fc5af69-b95f-4e2b-b910-b3e3ab212bc2" TYPE="swap" PARTUUID="af337f05-da86-43eb-9bf1-073bef14d3ea"
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/1575980a-76d1-4a85-a69e-75b8fe089988"; }
+    [ { device = "/dev/disk/by-uuid/9fc5af69-b95f-4e2b-b910-b3e3ab212bc2"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -41,5 +53,6 @@
   # networking.interfaces.enp4s0f3u1.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
