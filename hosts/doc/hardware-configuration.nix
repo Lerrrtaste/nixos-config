@@ -12,62 +12,69 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
 
-# for webcam https://nixos.wiki/wiki/OBS_Studio
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    v4l2loopback
-  ];
-  boot.extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-  '';
-  security.polkit.enable = true;
 
-  #Filesystem
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f9f2ef72-11cc-4cc0-a6d9-78c519460c5e";
+## for webcam https://nixos.wiki/wiki/OBS_Studio
+#  boot.extraModulePackages = with config.boot.kernelPackages; [
+#    v4l2loopback
+#  ];
+#  boot.extraModprobeConfig = ''
+#    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+#  '';
+#  security.polkit.enable = true;
+
+
+
+
+
+
+  # EFI Boot
+  # /dev/nvme0n1p1: LABEL_FATBOOT="TBEFI" LABEL="TBEFI" UUID="F62C-5877" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="ff819141-c24c-446a-b016-4d256fbb0e65"
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-partuuid/ff819141-c24c-446a-b016-4d256fbb0e65";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  # Nix
+  # /dev/nvme0n1p2: UUID="20d76592-675f-4706-93f0-9c4fb2045f2e" TYPE="crypto_LUKS" PARTUUID="cf86980d-91ce-4fcd-9755-32357df44556"
+  boot.initrd.luks.devices."cryptnix" = {
+    device = "/dev/disk/by-uuid/20d76592-675f-4706-93f0-9c4fb2045f2e";
+    preLVM = true;
+    allowDiscards = true;
+  };
+  # /dev/mapper/cryptnix: LABEL="NIXSTORE" UUID="721da4db-b4a5-49b7-9c0a-4799a7397b28" BLOCK_SIZE="4096" TYPE="ext4"
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/721da4db-b4a5-49b7-9c0a-4799a7397b28";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/84b44021-237f-40ed-97aa-901305d5bd30";
-
-  # boot.bootspec.enabled = false; # for secure boot
-
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F678-73E4";
-      fsType = "vfat";
+  # Root
+  # /dev/nvme0n1p3: UUID="eb75d091-14a1-4529-b237-7f57757baf12" TYPE="crypto_LUKS" PARTUUID="4ac80b03-309d-43ec-8bb6-f268c13aea2b"
+  boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/disk/by-uuid/eb75d091-14a1-4529-b237-7f57757baf12";
+    preLVM = true;
+    allowDiscards = true;
+  };
+  # /dev/mapper/cryptroot: LABEL="NIXPERSIST" UUID="14a65b2e-6a78-4747-a614-036dcd116be3" BLOCK_SIZE="4096" TYPE="ext4"
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/14a65b2e-6a78-4747-a614-036dcd116be3";
+      fsType = "ext4";
     };
 
-  #fileSystems."/media/ssd" =
-    #{ device = "/dev/disk/by-uuid/20549906-a63f-40db-ae3c-cd9f72eea2af";
-    #  fsType = "ext4";
-    #};
+  # Data1
+  # /dev/mapper/cryptdata: LABEL="DATA1" UUID="27159591-4105-45a6-bc74-6f551d78a849" BLOCK_SIZE="4096" TYPE="ext4"
+ # boot.initrd.luks.devices."cryptdata".device = "/dev/disk/by-uuid/27159591-4105-45a6-bc74-6f551d78a849";
+  # /dev/nvme0n1p4: UUID="fc02111d-6e96-4c6c-9d97-95c00a575eed" TYPE="crypto_LUKS" PARTUUID="677e6148-274f-46cb-b95f-4c4327525d6e"
+ # fileSystems."/media/data1" =
+ #   { device = "/dev/disk/by-uuid/fc02111d-6e96-4c6c-9d97-95c00a575eed";
+ #     fsType = "ext4";
+ #   };
 
-  # fileSystems."/media/storagebox/doc" =
-  #   {
-  #     fsType = "sshfs";
-  #     device = "@sb-sub3-user@@@sb-host@";
-  #     options = [ "password=@sb-sub3-pw@"
-  #                 "allow_other" # allow users
-  #                 "_netdev" # is network device
-  #                 "nofail" # do not fail boot
-  #                 "noauto" # do not mount at boot
-  #                 "x-systemd.automount" # automount on demand
-
-  #                 "reconnect" # reconnect on failure
-  #                 "ServerAliveInterval=15" # keep alive
-  #               ];
-  #   };
-  # system.activationScripts."storagebox-secrets" = ''
-  #   sbpw=$(cat "${config.age.secrets.sb-sub3-pw.path}")
-  #   sbuser=$(cat "${config.age.secrets.sb-sub3-user.path}")
-  #   sbhost=$(cat "${config.age.secrets.sb-host.path}")
-  #   ${pkgs.gnused}/bin/sed -i "s#@sb-sub3-pw@#$sbpw#" /etc/fstab
-  #   ${pkgs.gnused}/bin/sed -i "s#@sb-sub3-user@#$sbuser#" /etc/fstab
-  #   ${pkgs.gnused}/bin/sed -i "s#@sb-host@#$sbhost#" /etc/fstab
-  # '';
-  # age.secrets.sb-sub3-pw.file = /etc/nixos/secrets/sb-sub3-pw.age;
-  # age.secrets.sb-sub3-user.file = /etc/nixos/secrets/sb-sub3-user.age;
-  # age.secrets.sb-host.file = /etc/nixos/secrets/sb-host.age;
+   # DataGames
+  fileSystems."/media/games" =
+    { device = "/dev/disk/by-uuid/175100c6-90ce-4a80-8405-948b6ad25f58";
+      fsType = "ext4";
+    };
 
  ### SWAP ###
 #  swapDevices = [

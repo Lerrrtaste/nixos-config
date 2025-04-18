@@ -4,125 +4,41 @@
 
 let
   b_fingerprints =  {
-    # DP-1 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
-    # HDMI-0 = "00ffffffffffff005a6335e701010101041f0103804627782e1105a5574fad2a0a5054bfef80b300a940a9c0950090408180814081c0023a801871382d40582c4500ba892100001e000000ff005b185612000a202020202020000000fc005658333237362d4648440a2020016d020320f14d010203040590121113141e1d1f23097f078301000065030c0010002a4480a07038274030203500ba8921000e023a80d072382d40102c4580ba892100001e011d007251d01e206e285500ba892100001e011d00bc52d01e20b8285540ba892100001e000000000025";
-    # DP-2 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd00333332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a02950302500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
-    # HDMI-0 = "00ffffffffffff001e6df97674170300021c010380502278eaca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a8018784b5a5a18000a202020202020000000fc004c4720554c545241574944450a014c020323f12309070747100403011f13128301000065030c001000681a00000101284b008c0ad08a20e02d10103e96001e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a3";
+    DP-0 = "00ffffffffffff004c2d80704e38383007210104b54628783b43a5ae5244b0260f5054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd003090d6d63b010a202020202020000000fc004c433332473578540a20202020000000ff00484b32573230303739360a202001f6020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a0295030203500ba892100001a6fc200a0a0a0555030203500ba892100001a5a8780a070384d4030203500ba892100001a023a801871382d40582c4500ba892100001e00000000000000000000000000000000d7";
+    DP-4 = "00ffffffffffff001e6dfa7674170300021c0104a55022789fca95a6554ea1260f5054256b807140818081c0a9c0b300d1c08100d1cfcd4600a0a0381f4030203a001e4e3100001a003a801871382d40582c4500132a2100001e000000fd00284b5a5a18010a202020202020000000fc004c4720554c545241574944450a016f020314712309060747100403011f1312830100008c0ad08a20e02d10103e96001e4e31000018295900a0a038274030203a001e4e3100001a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ae";
   };
 
-  # lanzaboote-src = pkgs.fetchFromGitHub {
-  #   owner = "nix-community";
-  #   repo = "lanzaboote";
-  #   rev = "v0.4.1"; # Replace with the version you want
-  #   sha256 = "0l82cq5xjbbh8grfvzz49qf3g2b1wrpnpfv1jdjyxwfj0n9a0n1j"; # Replace with the correct hash
-  # };
-
-  # lanzaboote = import lanzaboote-src;
 in
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
+    # ../../modules/hardening.nix
+
+    # ../../modules/rcmonitor/default.nix
     # ../../modules/st.nix
     # ../../modules/cube.nix
-    ../../modules/ultras.nix
+    # ../../modules/ultras.nix
     # ../../modules/secureboot.nix
     # ../../modules/webcam.nix
   ];
 
+  users.motd = "Welcome to Doc!";
+
   # EFI boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.lanzaboote = { # required for secure boot (ran sbctl create-keys before)
-  #   enable = true;
-  #   pkiBundle = "/etc/secureboot";
-  # };
 
   # Network
   networking.hostName = "doc";
-  # services.tailscale.enable = true;
-  # services.tailscale.authKeyFile = config.age.secrets.ts-auth-doc.path;
 
   networking.networkmanager = {
     enable = true;
     dhcp = "dhcpcd";
-    # wifi.backend = "wpa_supplicant";
+    wifi.backend = "wpa_supplicant";
   };
 
-  # networking.interfaces = {
-  #   enp
-  #   name = "USB Tethering";
-  #   type = "ethernet";
-  #   interface-name = "enp13s0u4"; # Replace with your USB interface name
-  #   ipv4.route-metric = 100; # Lower metric for higher priority
-  # }
-  # {
-  #   name = "LAN Connection";
-  #   type = "ethernet";
-  #   interface-name = "enp12s0"; # Replace with your LAN interface name
-  #   ipv4.route-metric = 200; # Higher metric for lower priority
-  #   # OPTIONAL - diable lan gateway
-  #   # TODO fallback if lan is the only available connection to route all traffic????
-  #   ipv4.gateway = "none"; # Prevents the LAN connection from becoming the default route
-  #   ipv4.addresses = [
-  #     {
-  #       address = "192.168.2.128"; # Replace with your LAN IP
-  #       prefixLength = 24; # Adjust based on your subnet
-  #     }
-  #   ];
-  #   }
-  # ];
 
-
-  # For Future evaluation
-  services.taskserver.enable = true;
-# services.taskserver.config
-
-
- # networking.bonds = {
- #      "bond1" = {
- #        interfaces = [ "enp13s0u2u1" "enp13s0u4" ];
- #        driverOptions = {
- #          miimon = "250";
- #          mode = "balance-rr";
- #        };
- #      };
- #    };
- # systemd.network = {
- #    netdevs = {
- #      "10-bond0" = {
- #        netdevConfig = {
- #          Kind = "bond";
- #          Name = "bond0";
- #        };
- #        bondConfig = {
- #          Mode = "802.3ad";
- #          TransmitHashPolicy = "layer3+4";
- #        };
- #      };
- #    };
- #    networks = {
- #      "10-enp12s0" = {
- #        matchConfig.Name = "enp12s0";
- #        networkConfig.Bond = "bond0";
- #      };
- #      "20-enp13s0u2u1" = {
- #        matchConfig.Name = "enp13s0u2u1";
- #        networkConfig.Bond = "bond0";
- #      };
- #      "20-enp13s0u4" = {
- #        matchConfig.Name = "enp13s0u4";
- #        networkConfig.Bond = "bond0";
- #      };
- #      "31-bond0" = {
- #        matchConfig.Name = "bond0";
- #        linkConfig = {
- #          RequiredForOnline = "carrier";
- #        };
- #        networkConfig.LinkLocalAddressing = "no";
- #      };
- #    };
- #  };
 
   # GPU
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -138,30 +54,9 @@ in
     powerManagement.finegrained = false;
     open = true;
     nvidiaSettings = true;
-    # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  # Enable Prime for parallel integrated igpu and gpu usage
-  # hardware.nvidia.prime = {
-  #   nvidiaBusId = "PCI:1:0:0";
-  #   amdgpuBusId = "PCI:15:0:0";
-    #amdgpuBusId = "PCI:54:0:0"; # If you have an AMD iGPU
-    #
-
-    # sync.enable = true;
-   #  Sync mode
-   #  Note: Sync mode is available since NixOS 19.03 and NVIDIA driver version 390.67, and is incompatible with both offload and reverse sync modes. Sync mode also requires using a desktop manager that respects the services.xserver.displayManager.setupCommands option, including LightDM, GDM and SDDM.
-
-    # offload.enable = true;
-  # };
-  # LLMs
-  # services.ollama = {
-  #   enable = true;
-  #   acceleration = "cuda";
-  # # Optional: load models on startup
-  # # loadModels = [ ... ];
-  # };
 
   # Mouse
   hardware.openrazer.enable = true;
@@ -253,19 +148,8 @@ in
     };
   };
 
-  services.glances ={
-    enable = true;
-    extraArgs = ["-C" "/etc/glances.json" "-w" ];
-    openFirewall = true;
-  };
-  environment.etc."glances.json".source = /etc/nixos/hosts/doc/glances.json;
-  environment.etc."glances.json".mode = "0644";
-  # environment.etc.glances.enable = true;
-  # services.duplicati = {
-  #   enable = true;
-  # };
 
-  services.blueman.enable = true;
+  services.blueman.enable = false;
   # hardware.pulseaudio.extraConfig = ''
   #   load-module module-switch-on-connect
   # '';
@@ -299,19 +183,18 @@ in
     # 27035
     # 27036 # client discovery end
   ];
-  users.motd = "Welcome to Doc!";
 
   # Secrets
 
-  age.secrets.ts-auth-doc = {
-   file = /etc/nixos/secrets/ts-auth-doc.age;
-   name = "ts-auth-doc";
-   # path = "/etc/wireguard/wg0.conf";
-   # mode = "600";
-   # owner = "lerrrtaste";
-   # group = "root";
-    # symlink = false;
-  };
+  # age.secrets.ts-auth-doc = {
+  #  file = /etc/nixos/secrets/ts-auth-doc.age;
+  #  name = "ts-auth-doc";
+  #  # path = "/etc/wireguard/wg0.conf";
+  #  # mode = "600";
+  #  # owner = "lerrrtaste";
+  #  # group = "root";
+  #   # symlink = false;
+  # };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

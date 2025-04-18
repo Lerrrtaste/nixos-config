@@ -3,9 +3,12 @@ let
     user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII0syzkMdqXWjj7ZzpkBndMuYfFLfLNjI5zOeyaM211y";
     system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJkrL0s3nI2g9zbkdzUCTY61wJEq4PL4UCkgRgRmuEEW";
   };
-
-  users = [ mrfusion.user ];
-  systems = [ mrfusion.system ]; # system keys are used for decryption when building (user keys just for convenient editing)
+  doc = {
+    user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6b8s0A59W5rTtYGGhJwm/mLRVsEvHJgX00qkBD3YVm";
+    system = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJMlBDrsb5dLBmaMiSxhFmHomOidjNbCavLhk90ytFg";
+  };
+  users = [ doc.user mrfusion.user ];
+  systems = [ doc.system mrfusion.system ]; # system keys are used for decryption when building (user keys just for convenient editing)
 in
 {
   # "ivpn-ch-de-filtered.age".publicKeys = systems ++ users;

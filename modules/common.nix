@@ -25,7 +25,7 @@ in {
      }/modules/age.nix"
     #./cruzers.nix
     # ./clamav.nix
-   ./wireguard.nix
+   # ./wireguard.nix
   ];
 
   # Nix
@@ -39,19 +39,25 @@ in {
     min-free = ${builtins.toString (500 * 1024 * 1024)}
     max-free = ${builtins.toString (2000 * 1024 * 1024)}
   ''; # run gc when free space is less than 500MB and keep at least 2GB free
- # nixpkgs.config.allowUnfreePredicate = pkg:
- #   builtins.elem (lib.getName pkg) [
- #     "canon-cups-ufr2"
- #     "steam"
- #     "steam-original"
- #     "steam-runtime"
- #     "steam-run"
- #     "nvidia-x11"
- #     "nvidia-settings"
- #     "nvidia-persistenced"
- #     "steam-unwrapped"
+ nixpkgs.config.allowUnfreePredicate = pkg:
+   builtins.elem (lib.getName pkg) [
+     "canon-cups-ufr2"
+     "steam"
+     "steam-original"
+     "steam-runtime"
+     "steam-run"
+     "nvidia-x11"
+     "nvidia-settings"
+     "nvidia-persistenced"
+     "steam-unwrapped"
 
-#   ];
+     # ollama
+     # "cuda_cudart"
+     # "libcublas"
+     # "cuda_cccl"
+     # "cuda_nvcc"
+
+  ];
 
 
   # Time zone
@@ -137,20 +143,20 @@ in {
   # services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-  #services.printing.enable = true;
-  #services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
-  #services.printing.browsing = true;
-  #hardware.sane.enable = true;
-  #hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  #services.avahi.enable = true;
-  #services.avahi.nssmdns4 = true;
-  ## services.avahi.openFirewall = true; # for wifi printer
-  #nixpkgs.config.packageOverrides = pkgs: {
-  #  xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-  #};
+  services.printing.enable = true;
+  services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
+  services.printing.browsing = true;
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  services.avahi.enable = true;
+  services.avahi.nssmdns4 = true;
+  # services.avahi.openFirewall = true; # for wifi printer
+  nixpkgs.config.packageOverrides = pkgs: {
+    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  };
 
   # Moonlander
-  # hardware.keyboard.zsa.enable = true;
+  hardware.keyboard.zsa.enable = true;
 
   # Sound
   # sound.enable = true;
@@ -158,7 +164,7 @@ in {
   services.pipewire.enable = true;
 
   # Users
-  users.mutableUsers = false;
+  users.mutableUsers = true;
   # home-manager.users.lerrrtaste = { pkgs, ...}: {
   #   home.stateVersion = "24.11";
   #   programs.home-manager.enable = true;
@@ -195,7 +201,7 @@ in {
 
   # Gaming
   programs.steam = {
-    enable = false;
+    enable = true;
   #   remotePlay.openFirewall = true;
   };
   # hardware.steam-hardware.enable = true;

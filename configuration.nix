@@ -9,7 +9,7 @@ let
 #  };
 #  lookup = attrs: key:
 #    if attrs ? ${builtins.substring 0 5 key} then attrs."${builtins.substring 0 5 key}" else builtins.abort ("Unknown hardware: " + hardware_name);
-  host = "mrfusion"; # lookup hosts hardware_name;
+  host = "doc"; # lookup hosts hardware_name;
   config = ./hosts/${host}/configuration.nix;
 in
 builtins.trace ("Detected hardware: " + host)
