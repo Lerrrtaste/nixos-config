@@ -22,6 +22,6 @@ let
 in
 {
   imports = [
-    "${nix-mineral}/nix-mineral.nix"
+    #"${nix-mineral}/nix-mineral.nix"
   ];
 }

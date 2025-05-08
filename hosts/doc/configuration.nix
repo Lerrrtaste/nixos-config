@@ -16,13 +16,18 @@ in
     ../../modules/common.nix
 
     ../../modules/clamav.nix
+    ../../modules/bluetooth.nix
     ../../modules/nix.nix
-    ../../modules/hardening.nix
+    ../../modules/habitat.nix
+    ../../modules/wireguard.nix
+    ../../modules/x.nix
+
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "nvidia-x11"
+      "nvidia-settings"
 
       # llm bullet
       "cuda_cudart"

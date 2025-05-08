@@ -4,7 +4,7 @@
 # Common configuration for all systems
 
 { config, lib, pkgs, options, ... }:
-
+{
   imports = [
     # TODO install home-manager as module (atm add channel and
     # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
@@ -13,7 +13,6 @@
        builtins.fetchTarball # TODO pin
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
-     ./nix.nix
   ];
 
   # Time zone
@@ -59,7 +58,7 @@
   hardware.keyboard.zsa.enable = true;
 
   # Sound
-  hardware.pulseaudio.enalbe = true;
+  # hardware.pulseaudio.enable = true;
 
 
   users.users.root = {

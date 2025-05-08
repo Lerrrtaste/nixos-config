@@ -18,4 +18,4 @@
   users.users.root = {
     hashedPassword = "!"; # Disable password-based login for root.
   };
-};
+}
