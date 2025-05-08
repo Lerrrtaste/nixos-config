@@ -5,60 +5,16 @@
 
 { config, lib, pkgs, options, ... }:
 
-let
-  dwm_src = if builtins.pathExists
-  ("/home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm") then
-    /home/lerrrtaste/repos/github.com/lerrrtaste/custom-dwm
-  else
-    builtins.fetchGit
-    "https://github.com/lerrrtaste/custom-dwm.git"; # to force download --option tarball-ttl 0 (default 1 hr)
-
-in {
   imports = [
     # TODO install home-manager as module (atm add channel and
     # nix-shell '<home-manager>' -A install=(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-22.05.tar.gz}/nixos")
-    #
     # <home-manager/nixos>
      "${
        builtins.fetchTarball # TODO pin
        "https://github.com/ryantm/agenix/archive/main.tar.gz"
      }/modules/age.nix"
-    #./cruzers.nix
-    # ./clamav.nix
-   # ./wireguard.nix
+     ./nix.nix
   ];
-
-  # Nix
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 90d";
-  };
-  nix.extraOptions = ''
-    min-free = ${builtins.toString (500 * 1024 * 1024)}
-    max-free = ${builtins.toString (2000 * 1024 * 1024)}
-  ''; # run gc when free space is less than 500MB and keep at least 2GB free
- nixpkgs.config.allowUnfreePredicate = pkg:
-   builtins.elem (lib.getName pkg) [
-     "canon-cups-ufr2"
-     "steam"
-     "steam-original"
-     "steam-runtime"
-     "steam-run"
-     "nvidia-x11"
-     "nvidia-settings"
-     "nvidia-persistenced"
-     "steam-unwrapped"
-
-     # ollama
-     # "cuda_cudart"
-     # "libcublas"
-     # "cuda_cccl"
-     # "cuda_nvcc"
-
-  ];
-
 
   # Time zone
   time.timeZone = "Europe/Berlin";
@@ -82,129 +38,33 @@ in {
     notifications.wall.enable = true;
   };
 
-  # X11
-  services.xserver.enable = true;
-  services.xserver.autorun = false;
-  services.xserver.windowManager.dwm.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-    # services.autorandr.hooks { TODO
-  #   postswitch = {
-  #     "notify-send" wj w
-  #   }
-  # }
-
-  # Fonts
-  fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
-
-  # Suckless
-  nixpkgs.overlays = [
-    (self: super: {
-      dwm = super.dwm.overrideAttrs (oldAttrs: rec { src = dwm_src; });
-    })
-    (self: super: { # TODO move to own repo
-      st = super.st.overrideAttrs (oldAttrs: rec {
-        patches = [
-          ./patches/st/st-scrollback-0.8.5.diff
-          ./patches/st/st-blinking_cursor-20211116-2f6e597.diff
-          ./patches/st/st-visualbell2-basic-2020-05-13-045a0fa.diff
-          ./patches/st/st-alpha-20220206-0.8.5.diff
-        ];
-      });
-    })
-    (self: super: {
-     dmenu = super.dmenu.overrideAttrs (oldAttrs: rec {
-        patches = [
-          ./patches/dmenu/dmenu-numbers-20220512-28fb3e2.diff
-          ./patches/dmenu/dmenu-highlight-20201211-fcdc159.diff
-        ];
-      });
-    })
-  ];
-
-  # Compositor
-  services.picom = {
-    enable = false;
-    # fade = true;
-    # shadow = true;
-    # settings = {
-    #   backend= "glx";
-    #   # blur = { # FIXME doesnt work
-    #   #   method = "gaussian";
-    #   #   size = 10;
-    #   #   deviation = 10;
-    #   # };
-    # };
-  };
-
-  # Notifications
-
   # Keyboard
   services.xserver.xkb.layout = "de";
   # services.xserver.xkbOptions = "ctrl:nocaps"; # map caps to escape.
 
   # CUPS
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
-  services.printing.browsing = true;
-  hardware.sane.enable = true;
-  hardware.sane.extraBackends = [ pkgs.sane-airscan ];
-  services.avahi.enable = true;
-  services.avahi.nssmdns4 = true;
-  # services.avahi.openFirewall = true; # for wifi printer
-  nixpkgs.config.packageOverrides = pkgs: {
-    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
-  };
+  # services.printing.enable = true;
+  # services.printing.drivers = [ pkgs.canon-cups-ufr2 pkgs.gutenprintBin ];
+  # services.printing.browsing = true;
+  # hardware.sane.enable = true;
+  # hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+  # services.avahi.enable = true;
+  # services.avahi.nssmdns4 = true;
+  # # services.avahi.openFirewall = true; # for wifi printer
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  # };
 
   # Moonlander
   hardware.keyboard.zsa.enable = true;
 
   # Sound
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
-  services.pipewire.enable = true;
+  hardware.pulseaudio.enalbe = true;
 
-  # Users
-  users.mutableUsers = true;
-  # home-manager.users.lerrrtaste = { pkgs, ...}: {
-  #   home.stateVersion = "24.11";
-  #   programs.home-manager.enable = true;
-  #   home.packages = [ pkgs.hello ];
-  # };
-  users.users.lerrrtaste = {
-    isNormalUser = true;
-    home = "/home/lerrrtaste";
-    uid = 1000;
-    extraGroups = [
-      #"docker"
-      #"davfs2"
-      "wheel"
-      "networkmanager"
-      #"scanner"
-      #"lp"
-      ##"libvirtd"
-      #"adbusers"
-      #"cubeuser"
-      "pcscd" # for yubikey sc
-      #"plugdev" # alt owner for scs
-    ]; # note dont add to docker!
-    initialPassword = "changeme";
-  };
-  # users.syncthing = {
-  #   isNormalUser = false;
-  #   isSystemUser = true;
-  #   group = "cubeuser";
-  # };
 
   users.users.root = {
     hashedPassword = "!"; # Disable password-based login for root.
   };
-
-  # Gaming
-  programs.steam = {
-    enable = true;
-  #   remotePlay.openFirewall = true;
-  };
-  # hardware.steam-hardware.enable = true;
 
   # Packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -253,10 +113,6 @@ in {
     feh
     libnotify
     dunst
-    # tiramisu
-    # herbe
-    # gsettings-desktop-schemas
-    # glib
 
     # files
     sshfs

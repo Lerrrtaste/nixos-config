@@ -12,15 +12,23 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/common.nix
-    # ../../modules/hardening.nix
 
-    # ../../modules/rcmonitor/default.nix
-    # ../../modules/st.nix
-    # ../../modules/cube.nix
-    # ../../modules/ultras.nix
-    # ../../modules/secureboot.nix
-    # ../../modules/webcam.nix
+    ../../modules/common.nix
+
+    ../../modules/clamav.nix
+    ../../modules/nix.nix
+    ../../modules/hardening.nix
+  ];
+
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+
+      # llm bullet
+      "cuda_cudart"
+      "libcublas"
+      "cuda_cccl"
+      "cuda_nvcc"
   ];
 
   users.motd = "Welcome to Doc!";
@@ -38,20 +46,20 @@ in
     wifi.backend = "wpa_supplicant";
   };
 
+  #### GPU
+  # OpenGL
+  hardware.graphics.enable = true; # opengl
 
-
-  # GPU
+  # Nvidia Driver for Xorg (and Wayland)
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl = {
-    enable = true;
-    # driSupport = true;
-    # driSupport32Bit = true;
-  };
+
 
   hardware.nvidia = {
-    modesetting.enable = true;
+    modesetting.enable = true; # required
+
     powerManagement.enable = true;
     powerManagement.finegrained = false;
+
     open = true;
     nvidiaSettings = true;
     # package = pkgs.linuxKernel.packages.linux_5_15.nvidia_x11;
@@ -62,30 +70,6 @@ in
   hardware.openrazer.enable = true;
   hardware.openrazer.users = ["lerrrtaste"];
 
-  # Virtualisation
-  virtualisation.docker.enable = false;
-  virtualisation.docker.rootless = {
-   enable = false;
-   setSocketVariable = true;
-  }
-;
-  virtualisation.libvirtd = {
-    enable = false;
-    onBoot = "ignore"; # or start
-    onShutdown = "shutdown"; # or suspend
-    qemu = {
-      swtpm.enable = true;
-      runAsRoot = true;
-      ovmf.enable = true;
-    };
-  };
-  programs.virt-manager.enable = false;
-  # programs.dconf.settings = {
-  #   "org/virt-manager/virt-manager/connections" = {
-  #     autoconnect = ["qemu:///system"];
-  #     uris = ["qemu:///system"];
-  #   };
-  # };
 
   # Displays
   services.xserver.enable = true;
@@ -124,46 +108,13 @@ in
   # Packages
   environment.systemPackages = with pkgs; [
     # gpu stuff
-    # nvtopPackages.nvidia nvitop
     gpustat
     glmark2 # benchmark
     mesa-demos
 
     corectrl
     polychromatic
-
-    barrier
-    glances
   ];
-
-  # Bluetooth
-  hardware.bluetooth = {
-    package = pkgs.bluez;
-    enable = true;
-    settings =
-    {
-      General = {
-        Enable="Source,Sink,Media,Socket";
-      };
-    };
-  };
-
-
-  services.blueman.enable = false;
-  # hardware.pulseaudio.extraConfig = ''
-  #   load-module module-switch-on-connect
-  # '';
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-
-  # SSH
 
   # Firewall
   networking.firewall.enable = true;

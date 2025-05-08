@@ -39,7 +39,9 @@ in
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
+    ../../modules/llms.nix
   ];
+
 
   # EFI boot loader
   boot.loader.systemd-boot.enable = true;
