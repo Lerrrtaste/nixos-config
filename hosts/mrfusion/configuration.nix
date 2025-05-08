@@ -30,9 +30,16 @@ let
 in
 {
   imports = [
-    "${nix-mineral}/nix-mineral.nix"
     ./hardware-configuration.nix
     ../../modules/common.nix
+
+    ../../modules/clamav.nix
+    ../../modules/bluetooth.nix
+    ../../modules/nix.nix
+    ../../modules/habitat.nix
+    ../../modules/wireguard.nix
+    ../../modules/x.nix
+
   ];
 
   # Power Management
