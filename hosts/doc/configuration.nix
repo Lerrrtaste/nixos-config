@@ -21,6 +21,8 @@ in
     ../../modules/habitat.nix
     ../../modules/wireguard.nix
     ../../modules/x.nix
+    ../../modules/steam.nix
+
 
   ];
 
@@ -28,6 +30,8 @@ in
     builtins.elem (lib.getName pkg) [
       "nvidia-x11"
       "nvidia-settings"
+      "steam"
+      "steam-unwrapped"
 
       # llm bullet
       "cuda_cudart"
