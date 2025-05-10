@@ -13,6 +13,8 @@ let
 in
 {
   "p1-ch-de.age".publicKeys = systems ++ users;
+  "p2-ch-de.age".publicKeys = systems ++ users;
+  "p3-ch-de-shield.age".publicKeys = systems ++ users;
 
   # "ivpn-ch-de-filtered.age".publicKeys = systems ++ users;
   # "p0-se-de-default.age".publicKeys = systems ++ users;

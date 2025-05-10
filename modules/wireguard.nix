@@ -12,6 +12,10 @@ builtins.trace("- Loading Module: wireguard.nix")
       configFile = config.age.secrets.p1-ch-de.path;
       autostart = true;
     };
+    p2-ch-de = { # host specific
+      configFile = config.age.secrets.p2-ch-de.path;
+      autostart = false;
+    };
     #p2-de-pmp = { # alt / nat-pmp enabled
     #  configFile = config.age.secrets.p2-de-pmp.path;
     #  autostart = false;
@@ -28,6 +32,12 @@ builtins.trace("- Loading Module: wireguard.nix")
     file = /etc/nixos/secrets/p1-ch-de.age;
     name = "p1-ch-de";
     path = "/etc/wireguard/p1-ch-de.conf";
+    mode = "600";
+  };
+  age.secrets.p2-ch-de = {
+    file = /etc/nixos/secrets/p2-ch-de.age;
+    name = "p1-ch-de";
+    path = "/etc/wireguard/p2-ch-de.conf";
     mode = "600";
   };
   #age.secrets.p2-de-pmp = {
