@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+builtins.trace("- Loading Module: bluetooth.nix")
+
 {
   hardware.bluetooth = {
     package = pkgs.bluez;

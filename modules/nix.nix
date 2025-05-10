@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+builtins.trace("- Loading Module: nix.nix")
+
 {
   # Nix
   nix.settings.auto-optimise-store = true;

@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-
+builtins.trace("- Loading Module: virtualisation.nix")
 {
   #### Docker
   virtualisation.docker.enable = false;

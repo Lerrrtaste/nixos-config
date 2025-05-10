@@ -9,7 +9,10 @@ let
     "https://github.com/lerrrtaste/custom-dwm.git"; # to force download --option tarball-ttl 0 (default 1 hr)
 
 in
+builtins.trace("- Loading Module: x.nix")
 {
+
+
   # X11
   services.xserver.enable = true;
   services.xserver.autorun = false;

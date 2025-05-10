@@ -1,4 +1,7 @@
 { pkgs, ... }:
+
+builtins.trace("- Loading Module: hardening.nix")
+
 let
   nix-mineral = pkgs.fetchgit {
     url = "https://github.com/cynicsketch/nix-mineral.git";

@@ -11,6 +11,8 @@ let
       '';
 in
 
+builtins.trace("- Loading Module: clamav.nix")
+
 {
   services.clamav = {
     scanner.enable = true;

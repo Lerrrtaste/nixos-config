@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+builtins.trace("- Loading Module: habitat.nix")
+
 {
   # Users
   users.mutableUsers = true;

@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+builtins.trace("- Loading Module: wireguard.nix")
+
 {
   networking.wg-quick.interfaces = {
     #p0-se-de = { # fallback

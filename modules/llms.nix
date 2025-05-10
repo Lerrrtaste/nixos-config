@@ -3,6 +3,8 @@
 
 { config, lib, pkgs, options, ... }:
 
+builtins.trace("- Loading Module: llms.nix")
+
 { 
 
   services.ollama = {
